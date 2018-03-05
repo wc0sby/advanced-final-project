@@ -18,6 +18,7 @@ app.get("/publicinformation", function (req, res) {
   res.send("Anyone can see this");
 });
 
+app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(userRoutes);
 app.use(sessionRoutes);
