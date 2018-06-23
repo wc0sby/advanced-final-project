@@ -5,6 +5,8 @@ import SignUpSignIn from "./SignUpSignIn";
 import TopNavbar from "./TopNavbar";
 import Secret from "./Secret";
 
+import Authenticated from './Container/Functional/AppContainer'
+
 class App extends Component {
   constructor() {
     super();
@@ -66,8 +68,8 @@ class App extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" render={() => <h1>I am protected!</h1>} />
-          <Route exact path="/secret" component={Secret} />
+          <Route exact path="/" component={Authenticated} />
+          <Route exact path="/secret"  />
           <Route render={() => <h1>NOT FOUND!</h1>} />
         </Switch>
       </div>
