@@ -32,6 +32,7 @@ app.use(parser.json());
 app.use(require('./routes/transactionRouter'))
 app.use(require('./routes/cashRouter'))
 app.use(require('./routes/budgetRouter'))
+app.use(require('./routes/categoryRoutes'))
 
 app.get("/canigetthis", function (req, res) {
   res.send("You got the data. You are authenticated");

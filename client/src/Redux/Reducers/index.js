@@ -23,6 +23,13 @@ const budgetTrx = (state = [], action)=>{
   return state
 }
 
+const categories = (state = null, action)=>{
+  if (action.type === "CATEGORIES_LOADED"){
+    return action.value
+  }
+  return state
+}
+
 const toggleButtons = (state = [], action)=>{
   if (action.type === "ROW_CLICKED"){
     console.log(action.value)
@@ -32,6 +39,6 @@ const toggleButtons = (state = [], action)=>{
 }
 
 const rootReducer = combineReducers({
-  mainTrx, cashTrx, budgetTrx, toggleButtons
+  mainTrx, cashTrx, budgetTrx, categories, toggleButtons
 });
 export default rootReducer

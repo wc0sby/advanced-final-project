@@ -10,10 +10,12 @@ import Grid from '@material-ui/core/Grid';
 import AddButton from './Components/Buttons/addItem.js'
 import NewTRX from './Container/Functional/FormContainer'
 import SideBar from './Components/sidebar'
+import NewCategory from './Forms/newCategory'
 
 class App extends Component {
   state = {
-    formOpen: false,
+    trxVisible: false,
+    catVisible: false,
     value: 0,
     left: false
   };
@@ -30,12 +32,12 @@ class App extends Component {
     this.props.fetchBudget()
   }
 
-  handleFormOpen = () => {
-    this.setState({ formOpen: true });
+  handleFormOpen = name => () => {
+    this.setState({ [name]: true });
   };
 
-  handleFormClose = () => {
-    this.setState({ formOpen: false });
+  handleFormClose = name => () => {
+    this.setState({ [name]: false });
   };
 
   handleTabChange = (e, value)=>{
@@ -60,6 +62,7 @@ class App extends Component {
           <SideBar
              toggleBar={this.toggleDrawer}
              open={this.state.left}
+             catToggle={this.handleFormOpen('catVisible')}
             />
         <div className="main-container">
           <Grid 
@@ -141,12 +144,17 @@ class App extends Component {
             />
           </Grid>
           <AddButton
-            handleOpen={this.handleFormOpen}
+            handleOpen={this.handleFormOpen('trxVisible')}
           />
           <NewTRX 
             name='Add Transaction'
-            isOpen={this.state.formOpen}
-            close={this.handleFormClose}
+            isOpen={this.state.trxVisible}
+            close={this.handleFormClose('trxVisible')}
+          />
+          <NewCategory
+            name='New Category'
+            isOpen={this.state.catVisible}
+            close={this.handleFormClose('catVisible')}
           />
         </Grid>
 

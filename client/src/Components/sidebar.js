@@ -28,7 +28,7 @@ class SideDrawer extends Component {
           >
           </div>
           <div className={classes.list}>
-          <List />
+          <List catToggle={this.props.catToggle}/>
           </div>
           <Divider />
         </Drawer>

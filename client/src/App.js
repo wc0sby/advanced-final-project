@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
-import SignUpSignIn from "./SignUpSignIn";
+import SignUpSignIn from "./Components/SignUpSignIn";
 import TopNavbar from "./TopNavbar";
 import Secret from "./Secret";
 

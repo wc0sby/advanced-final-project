@@ -10,7 +10,10 @@ export default class SideBarList extends Component{
     return(
       <div>
         <List>
-          <ListItem button>
+          <ListItem
+            button
+            onClick={this.props.catToggle}
+          >
           <ListItemIcon>
           <SettingsIcon />
           </ListItemIcon>

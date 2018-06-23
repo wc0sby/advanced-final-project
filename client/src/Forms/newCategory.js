@@ -5,13 +5,14 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import Checkbox from '@material-ui/core/Checkbox'
 import Save from '@material-ui/icons/Save'
 import { withStyles } from '@material-ui/core'
 import classNames from 'classnames'
 import Icon from '@material-ui/core/Icon'
 import AppBar from '@material-ui/core/AppBar'
-
-import {dateFormat} from '../Helpers/trxFormFormatter'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const styles = theme => ({
   button: {
@@ -28,28 +29,8 @@ const styles = theme => ({
 class FormDialog extends Component {
 
   state = {
-    name:'',
-    amount: 0,
-    date: '',
-    category: ''
-  }
-
-  postNewTRX = (data)=>{
-    const url = "http://localhost:4001/transaction/"
-    const fetchObj = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: 'POST',
-      body: JSON.stringify(data)
-    }
-
-   return fetch(url, fetchObj)
-      .then(res => res.json())
-      .then(
-        (transactions)=>{
-        this.setState({trans: transactions})
-    })
+    category:'',
+    income: false,
   }
 
   handleFormInput = (e)=>{
@@ -62,13 +43,7 @@ class FormDialog extends Component {
     })
   }
 
-  getToday = ()=>{
-    const today = new Date()
-    const year = today.getFullYear().toString() 
-    const month = dateFormat((today.getMonth()+1).toString())
-    const day =  dateFormat(today.getDate().toString())
-    return `${year}-${month}-${day}`
-  }
+  handleChecked = (e)=>this.setState({income: e.target.checked})
 
   render() {
     const { classes } = this.props
@@ -85,50 +60,33 @@ class FormDialog extends Component {
                 <Icon>close</Icon>
               </Button>
             </DialogActions>
-            
             <DialogTitle id="form-dialog-title">{this.props.name}</DialogTitle>
-
           </AppBar>
           
             <DialogContent>
               <TextField
                 autoFocus
                 margin="dense"
-                id="name"
-                label="Transaction Name"
-                type="text"
-                onChange={this.handleFormInput}
-                fullWidth
-              />
-              <TextField
-                required
-                margin="dense"
-                id="date"
-                defaultValue={this.getToday()}
-                label="Transaction Date"
-                type="date"
-                onChange={this.handleFormInput}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-              />
-              <TextField
-                margin="dense"
-                id="amount"
-                label="Transaction Amt"
-                type="currency"
-                onChange={this.handleFormInput}
-                fullWidth
-              />
-              <TextField
-                margin="dense"
                 id="category"
-                label="Budget Category"
+                label="Category Name"
                 type="text"
                 onChange={this.handleFormInput}
                 fullWidth
               />
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      id="isIncome"
+                      checked={this.state.income}
+                      onChange={this.handleChecked}
+                      value="income"
+                    />
+                  }
+                label="Mark as an Income Category"
+                />
+              </FormGroup>
+             
             </DialogContent>
             
             <DialogActions>
