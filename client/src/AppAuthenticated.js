@@ -3,19 +3,22 @@ import './App.css'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import NavBar from './Components/nav'
-import InfoCard from './Components/infoCard'
+import MainInfoCard from './Container/Presentational/MainChartContainer'
+import CashInfoCard from './Container/Presentational/CashChartContainer'
 import Tabs from './Container/Presentational/TransactionContainer'
 import Card from './Components/card'
 import Grid from '@material-ui/core/Grid';
-import AddButton from './Components/Buttons/addItem.js'
-import NewTRX from './Container/Functional/FormContainer'
+import AddTrxButton from './Components/Buttons/addItem.js'
+import AddBudgetButton from './Components/Buttons/addItem.js'
+import AddCashButton from './Components/Buttons/addItem.js'
+import NewTRX from './Container/Functional/AddMainTrxContainer'
+import NewCashTRX from './Container/Functional/AddCashTrxContainer'
+import NewBudgetTRX from './Container/Functional/AddBudgetTrxContainer'
 import SideBar from './Components/sidebar'
-import NewCategory from './Forms/newCategory'
+import NewCategory from './Container/Functional/NewCategoryContainer'
 
 class App extends Component {
   state = {
-    trxVisible: false,
-    catVisible: false,
     value: 0,
     left: false
   };
@@ -30,6 +33,7 @@ class App extends Component {
     this.props.fetchMain()
     this.props.fetchCash()
     this.props.fetchBudget()
+    this.props.fetchCategories()
   }
 
   handleFormOpen = name => () => {
@@ -42,6 +46,19 @@ class App extends Component {
 
   handleTabChange = (e, value)=>{
     this.setState({ value })
+  }
+
+  renderAddButton = ()=>{
+    switch (this.state.value) {
+      case 1:
+      return <AddCashButton handleOpen={()=>this.props.handleFormOpen('cashVisible')}/>
+      case 2:
+      return <AddBudgetButton handleOpen={()=>this.props.handleFormOpen('budVisible')}/>
+      case 3:
+      break
+      default:
+      return <AddTrxButton handleOpen={()=>this.props.handleFormOpen('trxVisible')}/>
+    }
   }
 
   render() {
@@ -62,7 +79,7 @@ class App extends Component {
           <SideBar
              toggleBar={this.toggleDrawer}
              open={this.state.left}
-             catToggle={this.handleFormOpen('catVisible')}
+             catToggle={()=>this.props.handleFormOpen('catVisible')}
             />
         <div className="main-container">
           <Grid 
@@ -77,7 +94,7 @@ class App extends Component {
                 justify={Style.chartGrid.justify}
               >
                 <Grid item>
-                  <InfoCard/>
+                  <MainInfoCard title={'Primary Account Progress'}/>
                 </Grid>
               </Grid>
             </Grid>
@@ -90,7 +107,7 @@ class App extends Component {
                 justify={Style.chartGrid.justify}
               >
                 <Grid item>
-                  <InfoCard/>
+                  <CashInfoCard title={'Cash Progress'}/>
                 </Grid>
               </Grid>
             </Grid>
@@ -103,7 +120,7 @@ class App extends Component {
                 justify={Style.chartGrid.justify}
               >
                 <Grid item>
-                  <InfoCard/>
+                  <MainInfoCard title={'Main'}/>
                 </Grid>
               </Grid>
             </Grid>
@@ -143,18 +160,15 @@ class App extends Component {
               handleTabChange = {this.handleTabChange}
             />
           </Grid>
-          <AddButton
-            handleOpen={this.handleFormOpen('trxVisible')}
-          />
-          <NewTRX 
-            name='Add Transaction'
-            isOpen={this.state.trxVisible}
-            close={this.handleFormClose('trxVisible')}
-          />
+
+          {this.renderAddButton()}
+
+          <NewTRX name='Add Transaction' />
+          <NewCashTRX name='Add Cash Transaction'/>
+          <NewBudgetTRX name='Add Budget Transaction'/>
           <NewCategory
             name='New Category'
-            isOpen={this.state.catVisible}
-            close={this.handleFormClose('catVisible')}
+            // isOpen={this.state.catIsOpen}
           />
         </Grid>
 

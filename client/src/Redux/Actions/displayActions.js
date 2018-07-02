@@ -1,6 +1,42 @@
-const showButtons=(clicked)=>{
+export const getRow=(clicked)=>{
   return{
     type:'ROW_CLICKED',
-    action: clicked
+    value: clicked
   }
 }
+
+export const displayButtons=(buttons)=>{
+  return{
+    type:'GET_BUTTONS',
+    value: buttons
+  }
+}
+
+export const trxVisible=(booleanVal)=>{
+  return{
+    type:'TOGGLE_TRX_FORM',
+    value: booleanVal
+  }
+}
+
+export const catVisible=(booleanVal)=>{
+  return{
+    type:'TOGGLE_CAT_FORM',
+    value: booleanVal
+  }
+}
+
+export const budVisible=(booleanVal)=>{
+  return{
+    type:'TOGGLE_BUD_FORM',
+    value: booleanVal
+  }
+}
+
+export const cashVisible=(booleanVal)=>{
+  return{
+    type:'TOGGLE_CASH_FORM',
+    value: booleanVal
+  }
+}
+

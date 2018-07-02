@@ -30,7 +30,7 @@ class FormDialog extends Component {
 
   state = {
     category:'',
-    income: false,
+    isIncome: false,
   }
 
   handleFormInput = (e)=>{
@@ -43,7 +43,12 @@ class FormDialog extends Component {
     })
   }
 
-  handleChecked = (e)=>this.setState({income: e.target.checked})
+  handleClose = ()=>{
+    const redux  = this.props
+    return redux.handleFormClose(redux.isOpen)
+  }
+
+  handleChecked = (e)=>this.setState({isIncome: e.target.checked})
 
   render() {
     const { classes } = this.props
@@ -51,12 +56,12 @@ class FormDialog extends Component {
       <div>
         <Dialog
           open={this.props.isOpen}
-          onClose={this.props.close}
+          onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
           <AppBar position="static">
             <DialogActions>
-              <Button onClick={this.props.close}>
+              <Button onClick={this.handleClose}>
                 <Icon>close</Icon>
               </Button>
             </DialogActions>
@@ -78,7 +83,7 @@ class FormDialog extends Component {
                   control={
                     <Checkbox
                       id="isIncome"
-                      checked={this.state.income}
+                      checked={this.state.isIncome}
                       onChange={this.handleChecked}
                       value="income"
                     />
@@ -96,9 +101,9 @@ class FormDialog extends Component {
                 // onClick={this.props.close} 
                 color="primary"
                 onClick={()=>{
-                    const trx = this.state
-                    this.props.postNewTRX(trx)
-                    this.props.close()
+                    const cat = this.state
+                    this.props.postCategory(cat)
+                    this.handleClose()
                   }
                 }
               >

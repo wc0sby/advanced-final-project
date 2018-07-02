@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import MenuItem from '@material-ui/core/MenuItem'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -11,8 +10,6 @@ import { withStyles } from '@material-ui/core'
 import classNames from 'classnames'
 import Icon from '@material-ui/core/Icon'
 import AppBar from '@material-ui/core/AppBar'
-
-import {dateFormat} from '../Helpers/trxFormFormatter'
 
 const styles = theme => ({
   button: {
@@ -37,8 +34,7 @@ class FormDialog extends Component {
   state = {
     name:'',
     amount: 0,
-    date: this.today,
-    category: ''
+    type: ''
   }
 
   handleFormInput = (e)=>{
@@ -58,14 +54,6 @@ class FormDialog extends Component {
   handleClose = ()=>{
     const redux  = this.props
     return redux.handleFormClose(redux.isOpen)
-  }
-
-  getToday = ()=>{
-    const today = new Date()
-    const year = today.getFullYear().toString() 
-    const month = dateFormat((today.getMonth()+1).toString())
-    const day =  dateFormat(today.getDate().toString())
-    return `${year}-${month}-${day}`
   }
 
   render() {
@@ -99,19 +87,6 @@ class FormDialog extends Component {
                 fullWidth
               />
               <TextField
-                required
-                margin="dense"
-                id="date"
-                defaultValue={this.getToday()}
-                label="Transaction Date"
-                type="date"
-                onChange={this.handleFormInput}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-              />
-              <TextField
                 margin="dense"
                 id="amount"
                 label="Transaction Amt"
@@ -120,26 +95,13 @@ class FormDialog extends Component {
                 fullWidth
               />
               <TextField
-                id="category"
-                select
-                label="Select"
-                className={classes.textField}
-                value={this.state.category}
-                onChange={this.handleChange('category')}
-                SelectProps={{
-                  MenuProps: {
-                    className: classes.menu,
-                  },
-                }}
-                helperText="Please select the category"
-                margin="normal"
-              >
-                {this.props.categories.map((option,key) => (
-                  <MenuItem key={key} value={option.category}>
-                    {option.category}
-                  </MenuItem>
-                ))}
-              </TextField>
+                margin="dense"
+                id="type"
+                label="Expense / Income"
+                type="text"
+                onChange={this.handleFormInput}
+                fullWidth
+              />
 
             </DialogContent>
             

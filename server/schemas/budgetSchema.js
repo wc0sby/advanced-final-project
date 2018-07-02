@@ -7,9 +7,9 @@ const schema = new mon.Schema({
   },
   amount:{
     required: true,
-    type: String
+    type: Number
   },
-  category:{
+  type:{
     required: true,
     type: String
   }

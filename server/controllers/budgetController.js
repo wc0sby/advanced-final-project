@@ -9,7 +9,7 @@ module.exports.list = ((req,res)=>{
 })
 
 module.exports.show = ((req, res)=>{
-  Trans.findById({_id:req.params.id}).exec()
+  Budget.findById({_id:req.params.id}).exec()
   .then(budgetItems=>{
     res.json(budgetItems)
   })
@@ -20,8 +20,7 @@ module.exports.create = ((req, res)=>{
   const newBudgetItem = new Budget({
     name: req.body.name,
     amount: req.body.amount,
-    date: req.body.date,
-    category: req.body.category
+    type: req.body.type
   })
   newBudgetItem.save()
   .then(savedTRX=>{
@@ -31,4 +30,9 @@ module.exports.create = ((req, res)=>{
 
 module.exports.update = ((req, res)=>res.json({theId: req.params.id}))
 
-module.exports.remove = ((req, res)=>res.json({}))
+module.exports.remove = ((req, res)=>{
+  Budget.deleteOne({_id:req.params.id}).exec()
+  .then(transaction=>{
+  res.json(transaction)
+  })
+})

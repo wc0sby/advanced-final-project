@@ -8,47 +8,86 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import {formatter} from '../Helpers/formatter'
+import RenderIcons from '../Helpers/editButtons';
 
 class DataTable extends Component{
+
+  state={
+    showEditButtons: false,
+    selected:[],
+    selectedData:[],
+
+  }
+
+  isSelected = (index) => {
+    return this.state.selected.indexOf(index) !== -1;
+  };
+
+  toggleButtons = ()=>{
+    return this.state.selected.length
+      ? false
+      : true
+  }
+
+  handleRowSelection = (selectedRows) => {
+    this.setState({
+      selected: selectedRows.length ? selectedRows : [],
+      selectedData: this.props.data[selectedRows],
+      showEditButtons: this.toggleButtons()
+    });
+    this.props.getRow(this.props.data[selectedRows])
+  };
+
   render(){
     const TRX = this.props.data
-    //remove the version and id from client's view and map the new array
-    const columns = Object.keys(TRX[0]).filter((trx)=>{
-      return trx !== '_id' && trx !=='__v'
-    })
+      //remove the version and id from client's view and map the new array
+      const columns = TRX ? Object.keys(TRX[0]).filter((trx)=>{
+        return trx !== '_id' && trx !=='__v'
+      }) : []         
 
-    const transactionHeader = [...columns, ''].map((trx, i)=><TableHeaderColumn key={i}>{trx.toUpperCase()}</TableHeaderColumn>)
 
-    const transactionData = TRX.map((trx,i)=>{
-      return (
-        <TableRow key={i}>
-        {[...columns, ''].map((colName, x) => <TableRowColumn key={x}>{formatter[colName](trx[colName])}</TableRowColumn>)}
-        </TableRow>
-      )
-    })
+      const transactionHeader = [...columns, ''].map((trx, i)=><TableHeaderColumn key={i}>{trx.toUpperCase()}</TableHeaderColumn>)
+
+      const transactionData =()=> TRX.map((trx,i)=>{
+        return (
+          <TableRow key={i} selected={this.isSelected(i)} onClick={this.onMouseClick}>
+          {[...columns].map((colName, x) => <TableRowColumn key={x}>{formatter[colName](trx[colName])}</TableRowColumn>)}
+          <TableRowColumn>
+            <RenderIcons
+                id={i}
+                selected={this.state.selected}
+                deleteRow={()=>this.props.deleteRow(this.state.selectedData._id)}
+                editRow={()=>this.props.handleFormOpen()}
+                rowData={this.props.row}
+                visible={this.state.showEditButtons}
+              />
+          </TableRowColumn>
+          </TableRow>
+        )
+      })
     
     return (
       <div>
         <Table 
           fixedHeader={true}
           height={'300px'}
-          onRowSelection={(row)=>this.props.toggleButtons(row)}
-          // onRowSelection={(row)=>this.props.deleteRow(TRX[row]._id)}
+          onRowSelection={
+            this.handleRowSelection
+            // (i)=>this.props.getRow(TRX[i])
+          }
         >
           <TableHeader 
             displaySelectAll={false} 
-            adjustForCheckbox={false}
             style={{color:'red'}}
           >
-            <TableRow >
+            <TableRow>
               {transactionHeader}
             </TableRow>
           </TableHeader>
           <TableBody 
-            displayRowCheckbox={false}
             stripedRows={true}
           >
-            {transactionData}
+            {transactionData()}
           </TableBody>
         </Table>
       </div>

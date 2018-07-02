@@ -16,3 +16,30 @@ const cashLoaded=(cash)=>{
   }
 }
 
+export const postNewCashTrx=(cash)=>{
+  return (dispatch)=>{
+    fetch("/cash",{
+      method: 'post',
+      body: JSON.stringify(cash),
+      headers:{
+        'content-type': 'application/json'
+      }
+    })
+    .then(res=>res.json())
+    .then((cashTrx)=>{
+      dispatch(loadCash(cashTrx))
+    })
+  }
+}
+
+export const deleteCashTrx=(id)=>{
+  return (dispatch)=>{
+    fetch(`/cash/${id}`,{
+      method: 'DELETE'
+    })
+    .then(res=>res.json())
+    .then((trx)=>{
+      dispatch(loadCash(trx))
+    })
+  }
+}

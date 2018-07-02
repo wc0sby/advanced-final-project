@@ -9,14 +9,14 @@ module.exports.list = ((req,res)=>{
 })
 
 module.exports.show = ((req, res)=>{
-  Trans.findById({_id:req.params.id}).exec()
+  Cash.findById({_id:req.params.id}).exec()
   .then(transaction=>{
     res.json(transaction)
   })
 })
 
 module.exports.create = ((req, res)=>{
-  const newTRX = new Trans({
+  const newTRX = new Cash({
     name: req.body.name,
     amount: req.body.amount,
     date: req.body.date,
@@ -30,4 +30,9 @@ module.exports.create = ((req, res)=>{
 
 module.exports.update = ((req, res)=>res.json({theId: req.params.id}))
 
-module.exports.remove = ((req, res)=>res.json({}))
+module.exports.remove = ((req, res)=>{
+  Cash.deleteOne({_id:req.params.id}).exec()
+  .then(transaction=>{
+  res.json(transaction)
+  })
+})

@@ -18,7 +18,8 @@ function deleteButton(props){
         color="primary" 
         aria-label="edit" 
         className={classes.button}
-        onClick={()=>props.handleOpen()}
+        onClick={console.log(props.rowData.name)}
+        // onClick={()=>props.editRow()}
       >
         <EditIcon />
       </IconButton>

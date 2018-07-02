@@ -13,13 +13,14 @@ class DeleteButton extends Component{
 render(){
     const { classes } = this.props
     return(
-      <div style={{display: this.props.visible ? 'block' : 'none'}}>
+      // <div style={{display: this.props.visible ? 'block' : 'none'}}>
+      <div>
         <IconButton 
           variant="fab"
           color="secondary" 
           aria-label="delete" 
           className={classes.button}
-          // onClick={()=>props.handleOpen()}
+          onClick={()=>this.props.deleteRow()}
         >
           <DeleteIcon />
         </IconButton>

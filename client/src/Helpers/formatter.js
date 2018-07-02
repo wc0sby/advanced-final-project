@@ -1,7 +1,3 @@
-import React from 'react'
-import DeleteIcon from '../Container/Presentational/DeleteButtonContainer'
-import EditIcon from '../Components/Buttons/editButton'
-
 export const formatter = {
     date: (date)=>{
       const trxDate = new Date(date)
@@ -10,7 +6,7 @@ export const formatter = {
     name: (name)=>capFirstLetter(name),
     amount: (amt)=>`$${decimalCorrection(amt)}`,
     category: (cat)=>cat,
-    '': ()=>renderIcons()
+    type: (type)=>type
   }
 
 export const decimalCorrection = (number)=>{
@@ -43,16 +39,3 @@ const capFirstLetter = (str) =>{
   return name
 }
 
-const renderIcons = () =>{
-  const stylesheet={
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    color: 'grey'
-  }
-  return(
-    <div style={stylesheet}>
-      <DeleteIcon />
-      <EditIcon />
-    </div>)
-}

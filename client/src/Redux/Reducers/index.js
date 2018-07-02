@@ -23,22 +23,52 @@ const budgetTrx = (state = [], action)=>{
   return state
 }
 
-const categories = (state = null, action)=>{
-  if (action.type === "CATEGORIES_LOADED"){
+const categories = (state = [], action)=>{
+  if (action.type === "CATEGORY_LOADED"){
     return action.value
   }
   return state
 }
 
-const toggleButtons = (state = [], action)=>{
-  if (action.type === "ROW_CLICKED"){
-    console.log(action.value)
+const charts = (state = [])=>{
+  return state
+}
+
+const rowInScope = (state = [], action)=>{
+  if (action.type === "ROW_CLICKED" && action.value){
+    return action.value
+  }
+  return state
+}
+
+const trxVisible = (state = false, action)=>{
+  if (action.type === "TOGGLE_TRX_FORM"){
+    return action.value
+  }
+  return state
+}
+ const catVisible = (state = false, action)=>{
+
+  if (action.type === "TOGGLE_CAT_FORM"){
+    return action.value
+  }
+  return state
+}
+
+ const budVisible = (state = false, action)=>{
+  if (action.type === "TOGGLE_BUD_FORM"){
+    return action.value
+  }
+  return state
+}
+const cashVisible = (state = false, action)=>{
+  if (action.type === "TOGGLE_CASH_FORM"){
     return action.value
   }
   return state
 }
 
 const rootReducer = combineReducers({
-  mainTrx, cashTrx, budgetTrx, categories, toggleButtons
+  mainTrx, cashTrx, budgetTrx, categories, rowInScope, trxVisible, catVisible, budVisible, cashVisible, charts
 });
 export default rootReducer
