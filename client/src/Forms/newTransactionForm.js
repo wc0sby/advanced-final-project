@@ -41,6 +41,12 @@ class FormDialog extends Component {
     category: ''
   }
 
+  handleEditingValue = (value, fallback)=>{
+    return this.props.editingData 
+    ? this.props.editingData[value]
+    : fallback
+  }
+
   handleFormInput = (e)=>{
     const target = e.target
     const value = target.value
@@ -60,16 +66,26 @@ class FormDialog extends Component {
     return redux.handleFormClose(redux.isOpen)
   }
 
-  getToday = ()=>{
-    const today = new Date()
-    const year = today.getFullYear().toString() 
-    const month = dateFormat((today.getMonth()+1).toString())
-    const day =  dateFormat(today.getDate().toString())
+  handleInitialDate=(finder, dater)=>{
+    return finder 
+    ? dater(new Date(finder))
+    : dater(new Date())
+  }
+
+  getDateFormatted = (dateVal)=>{
+    const withoutTime = new Date(dateVal.getTime() - dateVal.getTimezoneOffset())
+    console.log(withoutTime)
+    const year = dateVal.getFullYear().toString() 
+    const month = dateFormat((dateVal.getMonth()+1).toString())
+    const day =  withoutTime.getDate().toString()
     return `${year}-${month}-${day}`
   }
 
+  getLabel=()=>this.props.editingData ? "Update" : "Save"
+
   render() {
     const { classes } = this.props
+    this.handleEditing
     return (
       <div>
         <Dialog
@@ -95,6 +111,7 @@ class FormDialog extends Component {
                 id="name"
                 label="Transaction Name"
                 type="text"
+                value={this.handleEditingValue('name', '')}
                 onChange={this.handleFormInput}
                 fullWidth
               />
@@ -102,9 +119,10 @@ class FormDialog extends Component {
                 required
                 margin="dense"
                 id="date"
-                defaultValue={this.getToday()}
+                // defaultValue={this.getDateFormatted()}
                 label="Transaction Date"
                 type="date"
+                value={this.handleInitialDate(this.handleEditingValue('date', ''),this.getDateFormatted)}
                 onChange={this.handleFormInput}
                 InputLabelProps={{
                   shrink: true,
@@ -116,6 +134,7 @@ class FormDialog extends Component {
                 id="amount"
                 label="Transaction Amt"
                 type="currency"
+                value={this.handleEditingValue('amount', '')}
                 onChange={this.handleFormInput}
                 fullWidth
               />
@@ -124,7 +143,8 @@ class FormDialog extends Component {
                 select
                 label="Select"
                 className={classes.textField}
-                value={this.state.category}
+                value={this.handleEditingValue('category', this.state.category)}
+                // value={this.state.category}
                 onChange={this.handleChange('category')}
                 SelectProps={{
                   MenuProps: {
@@ -147,7 +167,6 @@ class FormDialog extends Component {
               <Button 
                 className={classes.button}
                 variant="raised" size="small"
-                // onClick={this.props.close} 
                 color="primary"
                 onClick={()=>{
                     this.props.postNewTRX(this.state)
@@ -156,7 +175,7 @@ class FormDialog extends Component {
                 }
               >
               <Save className={classNames(classes.leftIcon, classes.iconSmall)} />
-                Save
+                {this.getLabel()}
               </Button>
             </DialogActions>
           </Dialog>

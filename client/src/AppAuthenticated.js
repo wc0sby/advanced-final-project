@@ -12,6 +12,7 @@ import AddTrxButton from './Components/Buttons/addItem.js'
 import AddBudgetButton from './Components/Buttons/addItem.js'
 import AddCashButton from './Components/Buttons/addItem.js'
 import NewTRX from './Container/Functional/AddMainTrxContainer'
+import EditTRX from './Container/Functional/EditMainTrxContainer'
 import NewCashTRX from './Container/Functional/AddCashTrxContainer'
 import NewBudgetTRX from './Container/Functional/AddBudgetTrxContainer'
 import SideBar from './Components/sidebar'
@@ -164,8 +165,10 @@ class App extends Component {
           {this.renderAddButton()}
 
           <NewTRX name='Add Transaction' />
+          <EditTRX name='Edit Transaction' />
           <NewCashTRX name='Add Cash Transaction'/>
           <NewBudgetTRX name='Add Budget Transaction'/>
+          
           <NewCategory
             name='New Category'
             // isOpen={this.state.catIsOpen}

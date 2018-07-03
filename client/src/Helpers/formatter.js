@@ -1,7 +1,7 @@
 export const formatter = {
     date: (date)=>{
       const trxDate = new Date(date)
-      return `${trxDate.getMonth()+1}/${trxDate.getDate()+1}/${trxDate.getFullYear()}`
+      return `${trxDate.getMonth()+1}/${trxDate.getDate()}/${trxDate.getFullYear()}`
     },
     name: (name)=>capFirstLetter(name),
     amount: (amt)=>`$${decimalCorrection(amt)}`,
