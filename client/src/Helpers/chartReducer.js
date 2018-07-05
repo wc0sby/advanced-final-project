@@ -15,9 +15,10 @@ export function getChartData(categories, trx){
 
   const values = catArr.map((item, k)=>{
     return trxArr.map((trx,i)=>{
-      return trx.category === item ? trx : 0
+      return trx.category === item && trx.amount > 0 ? trx : 0
     }).filter(i=>i!==0)
   }).filter(x=>x.length > 0)
+
   
   const groupedData = values.map((arr,k)=>{
     const temp = arr.map(x=>x.amount)
@@ -35,7 +36,7 @@ export function reduceLabels(categories, trx){
 
   const values = catArr.map((item, k)=>{
     return trxArr.map((trx,i)=>{
-      return trx.category === item ? trx : 0
+      return trx.category === item  && trx.amount > 0 ? trx : 0
     }).filter(i=>i!==0)
   }).filter(x=>x.length > 0)
 
@@ -54,7 +55,8 @@ export function generateLabelColors(arr, type){
   return arr.map((i)=>{
   const num = Math.round(0xffffff * Math.random());
     const r = num >> 16;
-    const g = num >> 8 & 255;
+    const temp = num >> 8 ;
+    const g = temp & 255
     const b = num & 255;
     const a = type === 'border' ? 1 : 0.2
     return `rgba(${r},${g},${b},${a})`;

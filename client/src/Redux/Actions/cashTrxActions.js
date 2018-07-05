@@ -43,3 +43,19 @@ export const deleteCashTrx=(id)=>{
     })
   }
 }
+
+export const postUpdateCashTrx=(main, id)=>{
+  return (dispatch)=>{
+    fetch(`/cash/${id}`,{
+      method: 'put',
+      body: JSON.stringify(main),
+      headers:{
+        'content-type': 'application/json'
+      } 
+    })
+    .then(res=>res.json())
+    .then((trx)=>{
+      dispatch(loadCash(trx))
+    })
+  }
+}

@@ -33,6 +33,13 @@ export const catVisible=(booleanVal)=>{
   }
 }
 
+export const editCatVisible=(booleanVal)=>{
+  return{
+    type:'TOGGLE_EDIT_CAT_FORM',
+    value: booleanVal
+  }
+}
+
 export const budVisible=(booleanVal)=>{
   return{
     type:'TOGGLE_BUD_FORM',

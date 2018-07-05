@@ -20,6 +20,10 @@ const schema = new mon.Schema({
   cleared: {
     type: Boolean,
     required: false
+  },
+  budgeted: {
+    type: Boolean,
+    required: false
   }
 })
 

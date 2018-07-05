@@ -34,3 +34,31 @@ export const postNewCategory=(category)=>{
     })
   }
 }
+
+export const deleteCategory=(id)=>{
+  return (dispatch)=>{
+    fetch(`/category/${id}`,{
+      method: 'DELETE'
+    })
+    .then(res=>res.json())
+    .then((trx)=>{
+      dispatch(loadCategories(trx))
+    })
+  }
+}
+
+export const postUpdateCategory=(main, id)=>{
+  return (dispatch)=>{
+    fetch(`/category/${id}`,{
+      method: 'put',
+      body: JSON.stringify(main),
+      headers:{
+        'content-type': 'application/json'
+      } 
+    })
+    .then(res=>res.json())
+    .then((category)=>{
+      dispatch(loadCategories(category))
+    })
+  }
+}

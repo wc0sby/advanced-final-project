@@ -44,3 +44,19 @@ export const deleteBudgetTrx=(id)=>{
     })
   }
 }
+
+export const postUpdateBudgetTrx=(main, id)=>{
+  return (dispatch)=>{
+    fetch(`/budget/${id}`,{
+      method: 'put',
+      body: JSON.stringify(main),
+      headers:{
+        'content-type': 'application/json'
+      } 
+    })
+    .then(res=>res.json())
+    .then((trx)=>{
+      dispatch(loadBudget(trx))
+    })
+  }
+}

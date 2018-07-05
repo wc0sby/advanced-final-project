@@ -20,7 +20,9 @@ module.exports.create = ((req, res)=>{
     name: req.body.name,
     amount: req.body.amount,
     date: req.body.date,
-    category: req.body.category
+    category: req.body.category,
+    budgeted: req.body.budgeted,
+    cleared: req.body.cleared
   })
   newTRX.save()
   .then(savedTRX=>{
@@ -28,7 +30,22 @@ module.exports.create = ((req, res)=>{
   })
 })
 
-module.exports.update = ((req, res)=>res.json({theId: req.params.id}))
+module.exports.update = ((req, res)=>{
+  const newTRX = {
+    name: req.body.name,
+    amount: req.body.amount,
+    date: req.body.date,
+    category: req.body.category,
+    budgeted: req.body.budgeted,
+    cleared: req.body.cleared
+  }
+  Trans.updateOne({_id:req.params.id},
+    newTRX
+    ).exec()
+  .then(transaction=>{
+    res.json(transaction)
+  })
+})
 
 module.exports.remove = ((req, res)=>{
   Trans.deleteOne({_id:req.params.id}).exec()

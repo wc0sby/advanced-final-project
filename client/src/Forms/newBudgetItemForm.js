@@ -5,6 +5,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import MenuItem from '@material-ui/core/MenuItem'
 import Save from '@material-ui/icons/Save'
 import { withStyles } from '@material-ui/core'
 import classNames from 'classnames'
@@ -28,14 +29,27 @@ const styles = theme => ({
 });
 
 class FormDialog extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      name:'',
+      amount: '',
+      type: ''
+    }
 
-  today = new Date()
-
-  state = {
-    name:'',
-    amount: 0,
-    type: ''
+    this.baseState = this.state
   }
+
+  types = ['Expense', 'Income', 'Savings']
+
+
+  handleInitialState = ()=>{
+    if (this.props.editingData){ 
+     const {name, amount, type} = this.props.editingData
+     const initial = {...this.state, name, amount, type }
+     this.setState(initial)
+     }
+   }
 
   handleFormInput = (e)=>{
     const target = e.target
@@ -56,6 +70,12 @@ class FormDialog extends Component {
     return redux.handleFormClose(redux.isOpen)
   }
 
+  handleReset = ()=>{
+    this.setState(this.baseState)
+  }
+
+  getLabel=()=>this.props.editingData ? "Update" : "Save"
+
   render() {
     const { classes } = this.props
     return (
@@ -63,6 +83,7 @@ class FormDialog extends Component {
         <Dialog
           open={this.props.isOpen}
           onClose={this.handleClose}
+          onEnter={()=>this.handleInitialState()}
           aria-labelledby="form-dialog-title"
         >
           <AppBar position="static">
@@ -83,6 +104,7 @@ class FormDialog extends Component {
                 id="name"
                 label="Transaction Name"
                 type="text"
+                value={this.state.name}
                 onChange={this.handleFormInput}
                 fullWidth
               />
@@ -91,17 +113,31 @@ class FormDialog extends Component {
                 id="amount"
                 label="Transaction Amt"
                 type="currency"
+                value={this.state.amount}
                 onChange={this.handleFormInput}
                 fullWidth
               />
               <TextField
-                margin="dense"
                 id="type"
-                label="Expense / Income"
-                type="text"
-                onChange={this.handleFormInput}
-                fullWidth
-              />
+                select
+                label="Select Type"
+                className={classes.textField}
+                value={this.state.type}
+                onChange={this.handleChange('type')}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText="Please select the type"
+                margin="normal"
+              >
+                {this.types.map((option,key) => (
+                  <MenuItem key={key} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
 
             </DialogContent>
             
@@ -112,13 +148,14 @@ class FormDialog extends Component {
                 // onClick={this.props.close} 
                 color="primary"
                 onClick={()=>{
-                    this.props.postNewTRX(this.state)
+                    this.props.postNewTRX(this.state, this.props.editingData ? this.props.editingData._id : null)
+                    this.handleReset()
                     this.handleClose()
                   }
                 }
               >
               <Save className={classNames(classes.leftIcon, classes.iconSmall)} />
-                Save
+              {this.getLabel()}
               </Button>
             </DialogActions>
           </Dialog>

@@ -28,7 +28,19 @@ module.exports.create = ((req, res)=>{
   })
 })
 
-module.exports.update = ((req, res)=>res.json({theId: req.params.id}))
+module.exports.update = ((req, res)=>{
+  const newBudgetItem = {
+    name: req.body.name,
+    amount: req.body.amount,
+    type: req.body.type
+  }
+  Budget.updateOne({_id:req.params.id},
+    newBudgetItem
+    ).exec()
+  .then(transaction=>{
+    res.json(transaction)
+  })
+})
 
 module.exports.remove = ((req, res)=>{
   Budget.deleteOne({_id:req.params.id}).exec()

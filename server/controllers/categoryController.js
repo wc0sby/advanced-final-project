@@ -26,6 +26,23 @@ module.exports.create = ((req, res)=>{
   })
 })
 
-module.exports.update = ((req, res)=>res.json({theId: req.params.id}))
+module.exports.update = ((req, res)=>{
+  const newCategory = {
+    category: req.body.category,
+    isIncome: req.body.isIncome
+  }
+  Category.updateOne({_id:req.params.id},
+    newCategory
+    ).exec()
+  .then(category=>{
+    res.json(category)
+  })
+})
 
-module.exports.remove = ((req, res)=>res.json({}))
+
+module.exports.remove = ((req, res)=>{
+  Category.deleteOne({_id:req.params.id}).exec()
+  .then(transaction=>{
+  res.json(transaction)
+  })
+})

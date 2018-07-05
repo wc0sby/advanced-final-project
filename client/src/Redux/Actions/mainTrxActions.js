@@ -45,3 +45,19 @@ export const deleteMainTrx=(id)=>{
     })
   }
 }
+
+export const postUpdateMainTrx=(main, id)=>{
+  return (dispatch)=>{
+    fetch(`/transaction/${id}`,{
+      method: 'put',
+      body: JSON.stringify(main),
+      headers:{
+        'content-type': 'application/json'
+      } 
+    })
+    .then(res=>res.json())
+    .then((trx)=>{
+      dispatch(loadMain(trx))
+    })
+  }
+}

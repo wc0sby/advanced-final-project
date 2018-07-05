@@ -18,10 +18,12 @@ export default function RenderIcons (props){
     return selected[0] === props.id ? stylesheet.visible : stylesheet.hidden
   }
 
+  const toggleEdit=()=>props.visible ? '' : <EditIcon editRow={()=>props.editRow()} rowData={props.rowData} />
+
   return(
     <div style={toggleDisplay(props.selected)}>
     <DeleteIcon deleteRow={(x)=>props.deleteRow(x)} />
-    <EditIcon editRow={()=>props.editRow()} rowData={props.rowData} />
+    {toggleEdit()}
     </div>
    
     )

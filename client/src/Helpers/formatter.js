@@ -6,7 +6,10 @@ export const formatter = {
     name: (name)=>capFirstLetter(name),
     amount: (amt)=>`$${decimalCorrection(amt)}`,
     category: (cat)=>cat,
-    type: (type)=>type
+    type: (type)=>type,
+    isIncome: (isIncome)=>isIncome ? 'True' : 'False',
+    budgeted: (b)=>b ? 'True' : 'False',
+    cleared: (c)=>c ? 'True' : 'False'
   }
 
 export const decimalCorrection = (number)=>{

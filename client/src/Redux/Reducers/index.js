@@ -91,9 +91,17 @@ const editCashVisible = (state = false, action)=>{
   return state
 }
 
+const editCatVisible = (state = false, action)=>{
+
+  if (action.type === "TOGGLE_EDIT_CAT_FORM"){
+    return action.value
+  }
+  return state
+}
+
 const rootReducer = combineReducers({
   mainTrx, cashTrx, budgetTrx, categories, rowInScope, 
   trxVisible, catVisible, budVisible, cashVisible, charts,
-  editTrxVisible, editBudVisible, editCashVisible
+  editTrxVisible, editBudVisible, editCashVisible, editCatVisible
 });
 export default rootReducer

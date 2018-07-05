@@ -14,9 +14,12 @@ import AddCashButton from './Components/Buttons/addItem.js'
 import NewTRX from './Container/Functional/AddMainTrxContainer'
 import EditTRX from './Container/Functional/EditMainTrxContainer'
 import NewCashTRX from './Container/Functional/AddCashTrxContainer'
+import EditCashTRX from './Container/Functional/EditCashTrxContainer'
 import NewBudgetTRX from './Container/Functional/AddBudgetTrxContainer'
+import EditBudgetTRX from './Container/Functional/EditBudgetTrxContainer'
 import SideBar from './Components/sidebar'
 import NewCategory from './Container/Functional/NewCategoryContainer'
+import EditCategory from './Container/Functional/EditCategoryContainer'
 
 class App extends Component {
   state = {
@@ -166,13 +169,12 @@ class App extends Component {
 
           <NewTRX name='Add Transaction' />
           <EditTRX name='Edit Transaction' />
-          <NewCashTRX name='Add Cash Transaction'/>
-          <NewBudgetTRX name='Add Budget Transaction'/>
-          
-          <NewCategory
-            name='New Category'
-            // isOpen={this.state.catIsOpen}
-          />
+          <NewCashTRX name='Add Cash Transaction' />
+          <EditCashTRX name='Edit Cash Transaction' />
+          <NewBudgetTRX name='Add Budget Transaction' />
+          <EditBudgetTRX name='Edit Budget Transaction' />
+          <NewCategory name='New Category' fullscreen={false} />
+          <EditCategory name='Edit Category' fullscreen={false} />
         </Grid>
 
         </div>

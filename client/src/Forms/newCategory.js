@@ -13,6 +13,8 @@ import Icon from '@material-ui/core/Icon'
 import AppBar from '@material-ui/core/AppBar'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Categories from '../Container/Functional/CatTableContainer'
+import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
   button: {
@@ -32,6 +34,14 @@ class FormDialog extends Component {
     category:'',
     isIncome: false,
   }
+
+  handleInitialState = ()=>{
+    if (this.props.editingData){ 
+     const {category, isIncome} = this.props.editingData
+     const initial = {...this.state, category, isIncome }
+     this.setState(initial)
+     }
+   }
 
   handleFormInput = (e)=>{
     const target = e.target
@@ -58,6 +68,8 @@ class FormDialog extends Component {
           open={this.props.isOpen}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
+          onEnter={()=>this.handleInitialState()}
+          fullScreen={this.props.fullscreen}
         >
           <AppBar position="static">
             <DialogActions>
@@ -75,6 +87,7 @@ class FormDialog extends Component {
                 id="category"
                 label="Category Name"
                 type="text"
+                value={this.state.category}
                 onChange={this.handleFormInput}
                 fullWidth
               />
@@ -93,7 +106,8 @@ class FormDialog extends Component {
               </FormGroup>
              
             </DialogContent>
-            
+            <Divider />
+            <Categories disableEdit={true} />
             <DialogActions>
               <Button 
                 className={classes.button}
@@ -101,8 +115,7 @@ class FormDialog extends Component {
                 // onClick={this.props.close} 
                 color="primary"
                 onClick={()=>{
-                    const cat = this.state
-                    this.props.postCategory(cat)
+                    this.props.postCategory(this.state, this.props.editingData ? this.props.editingData._id : null)
                     this.handleClose()
                   }
                 }

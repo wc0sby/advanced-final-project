@@ -33,7 +33,6 @@ class DataTable extends Component{
     this.setState({
       selected: selectedRows.length ? selectedRows : [],
       selectedData: this.props.data[selectedRows],
-      showEditButtons: this.toggleButtons()
     });
     this.props.getRow(this.props.data[selectedRows])
   };
@@ -50,7 +49,7 @@ class DataTable extends Component{
 
       const transactionData =()=> TRX.map((trx,i)=>{
         return (
-          <TableRow key={i} selected={this.isSelected(i)} onClick={this.onMouseClick}>
+          <TableRow key={i} selected={this.isSelected(i)} >
           {[...columns].map((colName, x) => <TableRowColumn key={x}>{formatter[colName](trx[colName])}</TableRowColumn>)}
           <TableRowColumn>
             <RenderIcons
@@ -59,7 +58,7 @@ class DataTable extends Component{
                 deleteRow={()=>this.props.deleteRow(this.state.selectedData._id)}
                 editRow={()=>this.props.handleFormOpen()}
                 rowData={this.props.row}
-                visible={this.state.showEditButtons}
+                visible={this.props.disableEdit}
               />
           </TableRowColumn>
           </TableRow>
@@ -73,7 +72,6 @@ class DataTable extends Component{
           height={'300px'}
           onRowSelection={
             this.handleRowSelection
-            // (i)=>this.props.getRow(TRX[i])
           }
         >
           <TableHeader 

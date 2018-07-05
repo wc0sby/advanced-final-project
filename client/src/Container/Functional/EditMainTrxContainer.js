@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { postNewMainTrx } from '../../Redux/Actions/mainTrxActions'
+import { postUpdateMainTrx } from '../../Redux/Actions/mainTrxActions'
 import Form from '../../Forms/newTransactionForm'
 import { editTrxVisible } from '../../Redux/Actions/displayActions'
 
@@ -13,7 +13,7 @@ const msp=(state)=>{
 
 const mdp =(dispatch)=>{
   return {
-    postNewTRX: (trx)=>dispatch(postNewMainTrx(trx)),
+    postNewTRX: (trx, id)=>dispatch(postUpdateMainTrx(trx, id)),
     handleFormClose: ()=>dispatch(editTrxVisible(false))
   }
 }

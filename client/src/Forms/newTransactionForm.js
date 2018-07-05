@@ -11,6 +11,9 @@ import { withStyles } from '@material-ui/core'
 import classNames from 'classnames'
 import Icon from '@material-ui/core/Icon'
 import AppBar from '@material-ui/core/AppBar'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 
 import {dateFormat} from '../Helpers/trxFormFormatter'
 
@@ -31,14 +34,27 @@ const styles = theme => ({
 });
 
 class FormDialog extends Component {
+  constructor(props){
+    super(props)
+      this.today = new Date()
+      this.state = {
+        name:'',
+        amount: '',
+        date: this.today,
+        category: '',
+        budgeted: false,
+        cleared: false
+      }
+      this.baseState = this.state
 
-  today = new Date()
+  }
 
-  state = {
-    name:'',
-    amount: 0,
-    date: this.today,
-    category: ''
+  handleInitialState = ()=>{
+   if (this.props.editingData){ 
+    const {name, date, amount, category, budgeted, cleared} = this.props.editingData
+    const initial = {...this.state, name, date, amount, category, budgeted, cleared }
+    this.setState(initial)
+    }
   }
 
   handleEditingValue = (value, fallback)=>{
@@ -73,23 +89,35 @@ class FormDialog extends Component {
   }
 
   getDateFormatted = (dateVal)=>{
-    const withoutTime = new Date(dateVal.getTime() - dateVal.getTimezoneOffset())
-    console.log(withoutTime)
     const year = dateVal.getFullYear().toString() 
     const month = dateFormat((dateVal.getMonth()+1).toString())
-    const day =  withoutTime.getDate().toString()
+    const day =  dateFormat(dateVal.getDate().toString())
     return `${year}-${month}-${day}`
+  }
+
+  handleReset =()=>this.setState(this.baseState)
+
+  handleChecked =name=> (e)=>this.setState({[name]: e.target.checked})
+
+  handleIncome=()=>{
+    const amount = this.state.amount
+    const categories = (this.props.categories.filter((i)=>{
+      return i.category === this.state.category })
+  )
+    return categories[0].isIncome
+    ?this.setState({amount: amount * -1})
+    :this.setState({amount: Math.abs(amount)})
   }
 
   getLabel=()=>this.props.editingData ? "Update" : "Save"
 
   render() {
     const { classes } = this.props
-    this.handleEditing
     return (
       <div>
         <Dialog
           open={this.props.isOpen}
+          onEnter={()=>this.handleInitialState()}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
@@ -111,7 +139,7 @@ class FormDialog extends Component {
                 id="name"
                 label="Transaction Name"
                 type="text"
-                value={this.handleEditingValue('name', '')}
+                value={this.state.name}
                 onChange={this.handleFormInput}
                 fullWidth
               />
@@ -119,10 +147,9 @@ class FormDialog extends Component {
                 required
                 margin="dense"
                 id="date"
-                // defaultValue={this.getDateFormatted()}
                 label="Transaction Date"
                 type="date"
-                value={this.handleInitialDate(this.handleEditingValue('date', ''),this.getDateFormatted)}
+                defaultValue={this.handleInitialDate(this.handleEditingValue('date', ''),this.getDateFormatted)}
                 onChange={this.handleFormInput}
                 InputLabelProps={{
                   shrink: true,
@@ -134,7 +161,7 @@ class FormDialog extends Component {
                 id="amount"
                 label="Transaction Amt"
                 type="currency"
-                value={this.handleEditingValue('amount', '')}
+                value={this.state.amount}
                 onChange={this.handleFormInput}
                 fullWidth
               />
@@ -143,9 +170,9 @@ class FormDialog extends Component {
                 select
                 label="Select"
                 className={classes.textField}
-                value={this.handleEditingValue('category', this.state.category)}
-                // value={this.state.category}
+                value={this.state.category}
                 onChange={this.handleChange('category')}
+                onBlur={this.handleIncome}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu,
@@ -161,6 +188,32 @@ class FormDialog extends Component {
                 ))}
               </TextField>
 
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      id="budgeted"
+                      checked={this.state.budgeted}
+                      onChange={this.handleChecked('budgeted')}
+                    />
+                  }
+                label="Was this expense Budgeted?"
+                />
+              </FormGroup>
+
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      id="cleared"
+                      checked={this.state.cleared}
+                      onChange={this.handleChecked('cleared')}
+                    />
+                  }
+                label="Mark transaction as reconciled"
+                />
+              </FormGroup>
+
             </DialogContent>
             
             <DialogActions>
@@ -169,7 +222,8 @@ class FormDialog extends Component {
                 variant="raised" size="small"
                 color="primary"
                 onClick={()=>{
-                    this.props.postNewTRX(this.state)
+                    this.props.postNewTRX(this.state, this.props.editingData ? this.props.editingData._id : null)
+                    this.handleReset()
                     this.handleClose()
                   }
                 }

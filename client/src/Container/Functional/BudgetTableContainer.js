@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import Table from '../../Components/table'
 import { deleteBudgetTrx } from '../../Redux/Actions/budgetTrxActions'
-import { getRow, budVisible } from '../../Redux/Actions/displayActions'
+import { getRow, editBudVisible } from '../../Redux/Actions/displayActions'
 
 const msp = state=>{
   return{
@@ -13,7 +13,7 @@ const mdp = (dispatch)=>{
   return{
     getRow: (row)=>dispatch(getRow(row)),
     deleteRow: (trx)=>dispatch(deleteBudgetTrx(trx)),
-    handleFormOpen: ()=>dispatch(budVisible(true)),
+    handleFormOpen: ()=>dispatch(editBudVisible(true)),
   }
 }
 
