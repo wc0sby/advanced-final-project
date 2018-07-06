@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-// import Button from '@material-ui/core/Button';
 import List from './sidebarList'
 import Divider from '@material-ui/core/Divider';
-// import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+
 
 const styles = {
   list: {

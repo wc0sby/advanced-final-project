@@ -15,6 +15,8 @@ export default class CardHold extends Component {
         },0))
       : this.props.data
 
+    const amIMoney = this.props.currency ? '$' : ''
+
     return (
       <Card style={stylesheet}>
         <CardContent>
@@ -22,7 +24,7 @@ export default class CardHold extends Component {
             {this.props.title}
           </Typography>
           <Typography component="p">
-            {data}
+            {`${amIMoney}${data}`}
           </Typography>
         </CardContent>
       </Card>

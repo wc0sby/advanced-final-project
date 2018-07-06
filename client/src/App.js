@@ -30,7 +30,7 @@ class App extends Component {
   };
 
   handleSignUp(credentials) {
-    const { username, password, confirmPassword } = credentials;
+    const { username, password } = credentials;
     if (!username.trim() || !password.trim() ) {
       this.setState({
         signUpSignInError: "Must Provide All Fields"
@@ -126,7 +126,7 @@ class App extends Component {
        
     return (
       <BrowserRouter>
-        <div>
+        <div >
         <NavBar 
             title="Balanced"
             toggleBar = {(side,open)=>this.toggleDrawer(side,open)}

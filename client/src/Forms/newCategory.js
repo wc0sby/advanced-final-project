@@ -29,10 +29,13 @@ const styles = theme => ({
 });
 
 class FormDialog extends Component {
-
-  state = {
+  constructor(props){
+    super(props)
+    this.state = {
     category:'',
     isIncome: false,
+    }
+    this.baseState = this.state
   }
 
   handleInitialState = ()=>{
@@ -52,6 +55,8 @@ class FormDialog extends Component {
       [name]: value
     })
   }
+
+  handleReset =()=>this.setState(this.baseState)
 
   handleClose = ()=>{
     const redux  = this.props
@@ -116,7 +121,7 @@ class FormDialog extends Component {
                 color="primary"
                 onClick={()=>{
                     this.props.postCategory(this.state, this.props.editingData ? this.props.editingData._id : null)
-                    this.handleClose()
+                    this.handleReset()
                   }
                 }
               >

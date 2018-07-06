@@ -112,7 +112,7 @@ class FormDialog extends Component {
               color="primary"
               onClick={()=>{
                   this.props.onSignIn(this.state)
-                  this.props.handleClose
+                  this.props.handleClose()
                 }
               }
             >

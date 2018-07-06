@@ -20,9 +20,9 @@ const msp = state =>{
   const actual = Math.abs(sumAllAccounts(state.mainTrx, state.cashTrx))
   return{
     header:'Free Spending',
-    budgetContent:`Total Free Spending: $${decimalCorrection(free)}`,
-    actualContent:`Total Actual: $${decimalCorrection(actual)}`,
-    remainingContent: `Clearing: $${decimalCorrection(clearingBalance(free, actual))}`
+    budgetContent:`Beginning: $${decimalCorrection(free)}`,
+    actualContent:`Total Spent: $${decimalCorrection(actual)}`,
+    remainingContent: `Remaining: $${decimalCorrection(clearingBalance(free, actual))}`
   }
 }
 

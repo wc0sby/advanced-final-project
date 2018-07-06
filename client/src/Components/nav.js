@@ -13,8 +13,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = {
    custom:{
-     background: '#303030ae',
-     position: 'relative'
+     background: '#66CDAA',
+     position: 'relative',
   },
   root: {
      flexGrow: 1,

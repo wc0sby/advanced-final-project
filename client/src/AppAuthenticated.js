@@ -125,6 +125,14 @@ class App extends Component {
             <Card
               title="Balance"
               data={this.props.balance}
+              currency={true}
+            />
+          </Grid>
+          <Grid item xs>
+            <Card
+            title="Free Spending"
+            data={this.props.freeSpending}
+            currency={true}
             />
           </Grid>
           <Grid item xs>
@@ -137,12 +145,6 @@ class App extends Component {
             <Card
             title="Message"
             data={'You can do it!!!'}
-            />
-          </Grid>
-          <Grid item xs>
-            <Card
-            title="Free Spending"
-            data={this.props.freeSpending}
             />
           </Grid>
         </Grid>
