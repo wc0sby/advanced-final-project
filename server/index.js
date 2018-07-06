@@ -26,20 +26,17 @@ app.get("/publicinformation", function (req, res) {
 
 app.use(express.static("public"));
 app.use(parser.json());
-// app.use(require('./routes/UserRoutes'));
-// app.use(require('./routes/SessionRoutes'));
+
+app.use(require('./routes/UserRoutes'));
+app.use(require('./routes/SessionRoutes'));
 // app.use(require('./routes/AuthenticationRoutes'));
+
+//Can't reach this until Authenticated
 app.use(require('./routes/transactionRouter'))
 app.use(require('./routes/cashRouter'))
 app.use(require('./routes/budgetRouter'))
 app.use(require('./routes/categoryRoutes'))
 
-app.get("/canigetthis", function (req, res) {
-  res.send("You got the data. You are authenticated");
-});
-app.get("/secret", function (req, res) {
-  res.send(`The current user is ${req.user.username}`);
-});
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {

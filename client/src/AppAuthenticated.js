@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './App.css'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import NavBar from './Components/nav'
 import MainInfoCard from './Container/Presentational/MainChartContainer'
 import CashInfoCard from './Container/Presentational/CashChartContainer'
 import Tabs from './Container/Presentational/TransactionContainer'
@@ -17,7 +16,6 @@ import NewCashTRX from './Container/Functional/AddCashTrxContainer'
 import EditCashTRX from './Container/Functional/EditCashTrxContainer'
 import NewBudgetTRX from './Container/Functional/AddBudgetTrxContainer'
 import EditBudgetTRX from './Container/Functional/EditBudgetTrxContainer'
-import SideBar from './Components/sidebar'
 import NewCategory from './Container/Functional/NewCategoryContainer'
 import EditCategory from './Container/Functional/EditCategoryContainer'
 
@@ -33,7 +31,7 @@ class App extends Component {
     });
   };
 
-  componentDidMount(){
+  componentWillMount(){
     this.props.fetchMain()
     this.props.fetchCash()
     this.props.fetchBudget()
@@ -76,15 +74,7 @@ class App extends Component {
     return (
         <MuiThemeProvider>
       <div >
-          <NavBar 
-            title="Budget"
-            toggleBar = {(side,open)=>this.toggleDrawer(side,open)}
-          />
-          <SideBar
-             toggleBar={this.toggleDrawer}
-             open={this.state.left}
-             catToggle={()=>this.props.handleFormOpen('catVisible')}
-            />
+
         <div className="main-container">
           <Grid 
             container spacing={24}

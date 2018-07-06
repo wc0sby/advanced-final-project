@@ -68,3 +68,9 @@ export const editCashVisible=(booleanVal)=>{
   }
 }
 
+export const authVisible=(booleanVal)=>{
+  return{
+    type: 'TOGGLE_SIGNIN_FORM',
+    value: booleanVal
+  }
+}

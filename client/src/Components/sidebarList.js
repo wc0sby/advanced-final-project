@@ -5,6 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SettingsIcon from '@material-ui/icons/Settings'
 import ListIcon from '@material-ui/icons/Description'
+import SignOutIcon from '@material-ui/icons/RemoveFromQueue'
 
 
 export default class SideBarList extends Component{
@@ -32,6 +33,18 @@ export default class SideBarList extends Component{
           <ListIcon />
           </ListItemIcon>
           <ListItemText primary="Edit Categories" />
+          </ListItem>
+        </List>
+
+        <List>
+          <ListItem
+            button
+            onClick={this.props.onSignOut}
+          >
+          <ListItemIcon>
+          <SignOutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Sign Out" />
           </ListItem>
         </List>
       </div>

@@ -1,6 +1,15 @@
+const handleErrors=(res)=>{
+  if(!res.ok){
+    throw Error(res.statusText)
+  }
+  return res
+  
+}
+
 export const loadMain=()=>{
   return (dispatch) =>{
     fetch(`/transaction`)
+      .then(handleErrors)
       .then(res => res.json())
       .then(
         (transactions)=>{
@@ -26,6 +35,7 @@ export const postNewMainTrx=(main)=>{
         'content-type': 'application/json'
       } 
     })
+    .then(handleErrors)
     .then(res=>res.json())
     .then((trx)=>{
       dispatch(loadMain(trx))
@@ -39,6 +49,7 @@ export const deleteMainTrx=(id)=>{
     fetch(`/transaction/${id}`,{
       method: 'DELETE'
     })
+    .then(handleErrors)
     .then(res=>res.json())
     .then((trx)=>{
       dispatch(loadMain(trx))
@@ -55,6 +66,7 @@ export const postUpdateMainTrx=(main, id)=>{
         'content-type': 'application/json'
       } 
     })
+    .then(handleErrors)
     .then(res=>res.json())
     .then((trx)=>{
       dispatch(loadMain(trx))

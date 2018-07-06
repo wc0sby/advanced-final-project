@@ -92,8 +92,21 @@ const editCashVisible = (state = false, action)=>{
 }
 
 const editCatVisible = (state = false, action)=>{
-
   if (action.type === "TOGGLE_EDIT_CAT_FORM"){
+    return action.value
+  }
+  return state
+}
+
+const authVisible = (state = true, action)=>{
+  if (action.type === "TOGGLE_AUTH_FORM"){
+    return action.value
+  }
+  return state
+}
+
+const userToken = (state = '', action)=>{
+  if(action.type === "USER_LOADED"){
     return action.value
   }
   return state
@@ -102,6 +115,7 @@ const editCatVisible = (state = false, action)=>{
 const rootReducer = combineReducers({
   mainTrx, cashTrx, budgetTrx, categories, rowInScope, 
   trxVisible, catVisible, budVisible, cashVisible, charts,
-  editTrxVisible, editBudVisible, editCashVisible, editCatVisible
+  editTrxVisible, editBudVisible, editCashVisible, editCatVisible,
+  authVisible, userToken
 });
 export default rootReducer

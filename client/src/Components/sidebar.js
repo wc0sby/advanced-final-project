@@ -28,7 +28,10 @@ class SideDrawer extends Component {
           >
           </div>
           <div className={classes.list}>
-          <List catToggle={this.props.catToggle}/>
+          <List 
+            catToggle={this.props.catToggle}
+            onSignOut={this.props.onSignOut}
+          />
           </div>
           <Divider />
         </Drawer>
