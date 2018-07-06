@@ -24,7 +24,7 @@ app.get("/publicinformation", function (req, res) {
   res.send("Anyone can see this");
 });
 
-app.use(express.static("public"));
+app.use(express.static("Public"));
 app.use(parser.json());
 
 app.use(require('./routes/UserRoutes'));
