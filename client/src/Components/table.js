@@ -40,8 +40,8 @@ class DataTable extends Component{
   render(){
     const TRX = this.props.data
       //remove the version and id from client's view and map the new array
-      const columns = TRX ? Object.keys(TRX[0]).filter((trx)=>{
-        return trx !== '_id' && trx !=='__v'
+      const columns = TRX.length ? Object.keys(TRX[0]).filter((trx)=>{
+        return trx !== '_id' && trx !=='__v' && trx !=='userID'
       }) : []         
 
 

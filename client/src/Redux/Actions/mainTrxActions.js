@@ -8,7 +8,11 @@ const handleErrors=(res)=>{
 
 export const loadMain=()=>{
   return (dispatch) =>{
-    fetch(`/transaction`)
+    fetch(`/transaction`, {
+      headers: {
+         authorization: localStorage.getItem("token"),
+       }
+    })
       .then(handleErrors)
       .then(res => res.json())
       .then(
@@ -32,7 +36,8 @@ export const postNewMainTrx=(main)=>{
       method: 'post',
       body: JSON.stringify(main),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token"),
       } 
     })
     .then(handleErrors)
@@ -47,7 +52,10 @@ export const postNewMainTrx=(main)=>{
 export const deleteMainTrx=(id)=>{
   return (dispatch)=>{
     fetch(`/transaction/${id}`,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers:{
+        authorization: localStorage.getItem("token")
+      }
     })
     .then(handleErrors)
     .then(res=>res.json())
@@ -63,7 +71,8 @@ export const postUpdateMainTrx=(main, id)=>{
       method: 'put',
       body: JSON.stringify(main),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token"),
       } 
     })
     .then(handleErrors)

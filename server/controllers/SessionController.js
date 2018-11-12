@@ -2,7 +2,7 @@ const User = require("../models/UserModel");
 const tokenForUser = require("../services/token").tokenForUser;
 const compare = require("../services/hash").compare;
 
-function create(req, res) {
+module.exports.create=(req, res)=> {
   const { username, password } = req.body;
   console.log("Looking for a user with the username",username);
 
@@ -24,16 +24,17 @@ function create(req, res) {
       if (!isMatch) {
         return res.send("Invalid password");
       }
-      console.log("The username was found and the passwords matched",username);
+      console.log("The username was found and the passwords matched",username, user._id);
       // If we have no errors and the passwords match
       // call done with a `null` argument, signifying no error
       // and with the now signed in user
       const token = tokenForUser(user);
-      res.json({ token});
+      console.log({token})
+      res.json({token});
     });
   }).catch(() => {
     return res.send("Error occured");
   });
 }
   
-exports.create = create;
+// exports.create = create;

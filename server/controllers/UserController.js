@@ -2,7 +2,7 @@ const User = require("../models/UserModel");
 const tokenForUser = require("../services/token").tokenForUser;
 const hash = require("../services/hash").hash;
 
-function create(req, res, next) {
+module.exports.create = ((req, res, next)=>{
   const { username, password } = req.body;
   const u = username;
   // If no username or password was supplied return an error
@@ -24,7 +24,7 @@ function create(req, res, next) {
     });
   })
   .catch(err => next(err));
-}
+})
 
 function saveUser(username,password,done) {
   hash(password, null,function (hashedPassword) {
@@ -39,4 +39,10 @@ function saveUser(username,password,done) {
   });
 }
 
-exports.create = create;
+//This is a thought...not in use yet
+module.exports.list = ((req,res)=>{
+  User.findOne({}).exec()
+  .then(transactions=>{
+    res.json(transactions)
+  })
+})

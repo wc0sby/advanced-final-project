@@ -24,6 +24,10 @@ const schema = new mon.Schema({
   budgeted: {
     type: Boolean,
     required: true
+  },
+  userID: {
+    type: String,
+    required: true
   }
 })
 
