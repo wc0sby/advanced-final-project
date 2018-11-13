@@ -1,6 +1,9 @@
 export const loadBudget=()=>{
   return (dispatch) =>{
-    fetch(`/budget`)
+    fetch(`/budget`,{headers: {
+        authorization: localStorage.getItem("token"),
+      }
+    })
       .then(res => res.json())
       .then(
         (budget)=>{
@@ -22,12 +25,12 @@ export const postNewBudgetTrx=(budget)=>{
       method: 'post',
       body: JSON.stringify(budget),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token"),
       }
     })
     .then(res=>res.json())
     .then((budgetTrx)=>{
-      console.log(budgetTrx)
       dispatch(loadBudget(budgetTrx))
     })
   }
@@ -36,7 +39,10 @@ export const postNewBudgetTrx=(budget)=>{
 export const deleteBudgetTrx=(id)=>{
   return (dispatch)=>{
     fetch(`/budget/${id}`,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        authorization: localStorage.getItem("token"),
+      }
     })
     .then(res=>res.json())
     .then((trx)=>{
@@ -51,7 +57,8 @@ export const postUpdateBudgetTrx=(main, id)=>{
       method: 'put',
       body: JSON.stringify(main),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token"),
       } 
     })
     .then(res=>res.json())

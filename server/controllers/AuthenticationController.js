@@ -21,4 +21,4 @@ function authentication(request, response, next) {
   });
 }
 
-exports.authentication = authentication;
+// exports.authentication = authentication;

@@ -38,13 +38,15 @@ module.exports.create = ((req, res)=>{
 })
 
 module.exports.update = ((req, res)=>{
+  const authUserID = JWTService.decodeJWT(req.headers.authorization)
   const newTRX = {
     name: req.body.name,
     amount: req.body.amount,
     date: req.body.date,
     category: req.body.category,
     budgeted: req.body.budgeted,
-    cleared: req.body.cleared
+    cleared: req.body.cleared,
+    userID: authUserID.userId
   }
   Trans.updateOne({_id:req.params.id},
     newTRX

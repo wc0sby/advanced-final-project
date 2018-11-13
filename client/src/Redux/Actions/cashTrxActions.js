@@ -1,6 +1,10 @@
 export const loadCash=()=>{
   return (dispatch) =>{
-    fetch(`/cash`)
+    fetch(`/cash`, {
+      headers: {
+         authorization: localStorage.getItem("token"),
+       }
+    })
       .then(res => res.json())
       .then(
         (cash)=>{
@@ -22,7 +26,8 @@ export const postNewCashTrx=(cash)=>{
       method: 'post',
       body: JSON.stringify(cash),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token")
       }
     })
     .then(res=>res.json())
@@ -35,7 +40,8 @@ export const postNewCashTrx=(cash)=>{
 export const deleteCashTrx=(id)=>{
   return (dispatch)=>{
     fetch(`/cash/${id}`,{
-      method: 'DELETE'
+      method: 'DELETE',
+      authorization: localStorage.getItem("token")
     })
     .then(res=>res.json())
     .then((trx)=>{
@@ -50,7 +56,8 @@ export const postUpdateCashTrx=(main, id)=>{
       method: 'put',
       body: JSON.stringify(main),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token")
       } 
     })
     .then(res=>res.json())

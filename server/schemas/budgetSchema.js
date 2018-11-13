@@ -12,6 +12,10 @@ const schema = new mon.Schema({
   type:{
     required: true,
     type: String
+  },
+  userID:{
+    required: true,
+    type: String
   }
 })
 
