@@ -35,6 +35,8 @@ const msp=state=>{
     freeSpending: decimalCorrection(clearingBalance(free, totalWOBudget)),
     isLoaded: state.loadStatus,
     categories: state.categories,
+    month: state.selectedMonth,
+    year: state.selectedYear,
   }
 }
 

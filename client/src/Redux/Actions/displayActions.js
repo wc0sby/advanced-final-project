@@ -74,3 +74,24 @@ export const authVisible=(booleanVal)=>{
     value: booleanVal
   }
 }
+
+export const selectedMonth=(date)=>{
+  return{
+    type: 'SET_MONTH',
+    value: date
+  }
+}
+
+export const selectedYear=(date)=>{
+  return{
+    type: 'SET_YEAR',
+    value: date
+  }
+}
+
+export const getYears=(year)=>{
+  return{
+    type: 'GET_YEARS',
+    value: year,
+  }
+}

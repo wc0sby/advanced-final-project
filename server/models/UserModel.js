@@ -8,10 +8,30 @@ const userSchema = new Schema({
     lowercase: true,
     required: true
   },
-
   password: {
     type: String,
     required: true
+  },
+  email: {
+    type: String,
+  },
+  first: {
+    type: String,
+  },
+  last: {
+    type: String,
+  },
+  lastLogin: {
+    type: Date,
+  },
+  preferences: {
+    type: Object,
+  },
+  isActive: {
+    type: Boolean,
+  },
+  authUsers: {
+    type: Array
   }
 });
 

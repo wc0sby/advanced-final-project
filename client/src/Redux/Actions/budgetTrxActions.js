@@ -8,7 +8,7 @@ export const loadBudget=()=>{
       .then(
         (budget)=>{
         dispatch(budgetLoaded(budget))
-    })
+    }).catch((err)=>err)
   }
 }
 

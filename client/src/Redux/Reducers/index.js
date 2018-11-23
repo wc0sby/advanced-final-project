@@ -112,10 +112,26 @@ const userToken = (state = '', action)=>{
   return state
 }
 
+
+const d = new Date()
+const selectedMonth = (state = d.getMonth(), action)=>{
+  if(action.type === "SET_MONTH"){
+    return action.value
+  }
+  return state
+}
+
+const selectedYear = (state = d.getFullYear(), action)=>{
+  if(action.type === "SET_YEAR"){
+    return action.value
+  }
+  return state
+}
+
 const rootReducer = combineReducers({
   mainTrx, cashTrx, budgetTrx, categories, rowInScope, 
   trxVisible, catVisible, budVisible, cashVisible, charts,
   editTrxVisible, editBudVisible, editCashVisible, editCatVisible,
-  authVisible, userToken
+  authVisible, userToken, selectedMonth, selectedYear
 });
 export default rootReducer

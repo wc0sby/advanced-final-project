@@ -5,7 +5,7 @@ import Form from '../../Forms/signUpForm'
 
 const msp=(state)=>{
   return{
-    open: state.authVisible
+    open: state.authVisible,
   }
 }
 

@@ -9,7 +9,7 @@ export const loadCash=()=>{
       .then(
         (cash)=>{
         dispatch(cashLoaded(cash))
-    })
+    }).catch((err)=>err)
   }
 }
 

@@ -70,6 +70,7 @@ class FormDialog extends Component {
         <DialogTitle id="simple-dialog-title">Let's Get Started</DialogTitle>
         <DialogContent>
         <Divider />
+        <h3>{this.props.error}</h3>
           <TextField
             autoFocus
             margin="dense"

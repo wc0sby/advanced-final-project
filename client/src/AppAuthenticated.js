@@ -25,14 +25,17 @@ class App extends Component {
     left: false
   };
 
+  
   toggleDrawer = (side, open) => {
     this.setState({
       [side]: open,
     });
   };
-
+  
   componentWillMount(){
-    this.props.fetchMain()
+    const {month, year} = this.props
+    console.log(month, year)
+    this.props.fetchMain(month, year)
     this.props.fetchCash()
     this.props.fetchBudget()
     this.props.fetchCategories()
@@ -72,7 +75,7 @@ class App extends Component {
       }
     }
     return (
-        <MuiThemeProvider>
+      <MuiThemeProvider>
       <div >
 
         <div className="main-container">
@@ -126,7 +129,7 @@ class App extends Component {
               title="Balance"
               data={this.props.balance}
               currency={true}
-            />
+              />
           </Grid>
           <Grid item xs>
             <Card
@@ -141,12 +144,14 @@ class App extends Component {
             data={new Date().toDateString()}
             />
           </Grid>
-          <Grid item xs>
-            <Card
-            title="Message"
-            data={'You can do it!!!'}
-            />
-          </Grid>
+          {/* <Grid item xs> */}
+            {/* <Card
+            title="Month"
+            data={''}
+            
+            >
+          </Card> */}
+          {/* </Grid> */}
         </Grid>
 
         <Grid container>

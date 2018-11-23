@@ -16,6 +16,12 @@ const schema = new mon.Schema({
   userID:{
     required: true,
     type: String
+  },
+  postDate:{
+    type: Date
+  },
+  updateDate:{
+    type: Date
   }
 })
 

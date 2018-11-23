@@ -4,7 +4,8 @@ import "./App.css";
 import SignUpSignIn from "./Container/Functional/SignInContainer";
 // import LogInButton from "./Components/Buttons/SignInButton";
 // import Secret from "./Secret";
-import NavBar from './Components/nav'
+import NavBar from './Container/Functional/navContainer'
+// import NavBar from './Components/nav'
 import SideBar from './Components/sidebar'
 
 
@@ -77,20 +78,23 @@ class App extends Component {
           }
         })
         .then((data) => {
-          const { token } = data;
-          localStorage.setItem('token', token);
-          this.setState({
-            signUpSignInError: '',
-            authenticated: token,
-          });
-        });
+          if (data){
+            const { token } = data;
+            localStorage.setItem('token', token);
+            this.setState({
+              signUpSignInError: '',
+              authenticated: token,
+            });
+          }
+        })
     }
   }  
 
   handleSignOut() {
     localStorage.removeItem("token");
     this.setState({
-      authenticated: false
+      authenticated: false,
+      left: false
     });
   }
 
