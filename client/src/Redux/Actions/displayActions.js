@@ -75,7 +75,7 @@ export const authVisible=(booleanVal)=>{
   }
 }
 
-export const selectedMonth=(date)=>{
+export const selectedMonth= date => {
   return{
     type: 'SET_MONTH',
     value: date

@@ -16,8 +16,13 @@ const Trans = require('../models/transactionModel')
 */
 
 module.exports.list = ((req,res)=>{
-  console.log(req.userId)
-  Trans.find({"userID": req.userId}).exec()
+  const { year, month } = req.params
+  const startDt = new Date(year,Number(month),1)
+  const endDt = new Date(year,Number(month)+1,0)
+  Trans.find({
+    "userID": req.userId, 
+    "date":{"$gte": startDt, "$lt": endDt}
+  }).exec()
   .then(transactions=>{
     res.json(transactions)
   })

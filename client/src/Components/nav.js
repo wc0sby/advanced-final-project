@@ -52,7 +52,6 @@ class NavBar extends Component{
             marginRight:'2.5%',
             display: 'flex' 
             }}>
-            {console.log(this.props.yearArr)}
           <Select title='Month' data={monthsArr} selection={month} setter={setMonth}/>
           <Select title='Year' data={yearArr} selection={yearArr.indexOf(year)} setter={setYear}/>
           </div>

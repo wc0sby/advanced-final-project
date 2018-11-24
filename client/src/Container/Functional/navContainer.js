@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Nav from '../../Components/nav'
-import { selectedMonth, selectedYear, getYears } from '../../Redux/Actions/displayActions'
+import { selectedMonth, selectedYear } from '../../Redux/Actions/displayActions'
 
 const monthsArr = [
   'JAN',

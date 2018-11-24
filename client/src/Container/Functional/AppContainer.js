@@ -43,7 +43,7 @@ const msp=state=>{
 //map dispatch to props for fetch calls
 const mdp=(dispatch)=>{
   return{
-    fetchMain: ()=>dispatch(loadMain()),
+    fetchMain: (month, year)=>dispatch(loadMain(month, year)),
     fetchCash: ()=>dispatch(loadCash()),
     fetchBudget: ()=>dispatch(loadBudget()),
     fetchCategories: ()=>dispatch(loadCategories()),

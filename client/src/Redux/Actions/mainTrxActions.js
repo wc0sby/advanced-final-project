@@ -8,9 +8,8 @@ const handleErrors=(res)=>{
 
 export const loadMain=(month, year)=>{
   return (dispatch) =>{
-    fetch(`/transaction`, {
+    fetch(`/transaction/${month}/${year}`, {
       headers: {
-         qs:{month, year},
          authorization: localStorage.getItem("token"),
        }
     })

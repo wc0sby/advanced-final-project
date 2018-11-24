@@ -32,14 +32,18 @@ class App extends Component {
     });
   };
   
-  componentWillMount(){
+  componentDidMount(){
     const {month, year} = this.props
-    console.log(month, year)
     this.props.fetchMain(month, year)
     this.props.fetchCash()
     this.props.fetchBudget()
     this.props.fetchCategories()
   }
+
+  componentDidUpdate(prevProps){
+    const{month, year} = prevProps
+    if(month !== this.props.month || year !== this.props.year){ this.props.fetchMain(this.props.month, this.props.year) }
+ }
 
   handleFormOpen = name => () => {
     this.setState({ [name]: true });

@@ -6,7 +6,7 @@ const { isAuth } = require('../services/token')
 
 
 // Use whatever method you need (get, post, etc)
-router.get('/transaction', isAuth,  list)
+router.get('/transaction/:month/:year', isAuth,  list)
 router.get('/transaction/:id', isAuth, show)
 router.post('/transaction', isAuth, create)
 router.put('/transaction/:id', isAuth, update)
