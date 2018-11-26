@@ -173,7 +173,7 @@ class FormDialog extends Component {
                 className={classes.textField}
                 value={this.state.category}
                 onChange={this.handleChange('category')}
-                onBlur={this.state.category ? this.handleIncome : ''}
+                onBlur={this.state.category ? this.handleIncome : ()=>''}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu,

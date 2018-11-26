@@ -21,7 +21,7 @@ import EditCategory from './Container/Functional/EditCategoryContainer'
 
 class App extends Component {
   state = {
-    value: 0,
+    value: "/",
     left: false
   };
 
@@ -34,15 +34,21 @@ class App extends Component {
   
   componentDidMount(){
     const {month, year} = this.props
-    this.props.fetchMain(month, year)
-    this.props.fetchCash()
-    this.props.fetchBudget()
-    this.props.fetchCategories()
+
+      this.props.fetchMain(month, year)
+      this.props.fetchCash(month, year)
+      this.props.fetchBudget(month, year)
+      this.props.fetchCategories()
+
   }
 
   componentDidUpdate(prevProps){
     const{month, year} = prevProps
-    if(month !== this.props.month || year !== this.props.year){ this.props.fetchMain(this.props.month, this.props.year) }
+    if(month !== this.props.month || year !== this.props.year){
+      this.props.fetchMain(this.props.month, this.props.year) 
+      this.props.fetchCash(this.props.month, this.props.year)
+      this.props.fetchBudget(this.props.month, this.props.year) 
+      }
  }
 
   handleFormOpen = name => () => {
@@ -54,16 +60,17 @@ class App extends Component {
   };
 
   handleTabChange = (e, value)=>{
+    this.props.history.push(value)
     this.setState({ value })
   }
 
   renderAddButton = ()=>{
     switch (this.state.value) {
-      case 1:
+      case "/cash":
       return <AddCashButton handleOpen={()=>this.props.handleFormOpen('cashVisible')}/>
-      case 2:
+      case "/budget":
       return <AddBudgetButton handleOpen={()=>this.props.handleFormOpen('budVisible')}/>
-      case 3:
+      case "/progress":
       break
       default:
       return <AddTrxButton handleOpen={()=>this.props.handleFormOpen('trxVisible')}/>

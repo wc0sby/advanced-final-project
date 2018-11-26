@@ -1,9 +1,16 @@
-const handleErrors=(res)=>{
+import { loginFailure, authStatus } from '../Actions/authenticationActions'
+import { authVisible } from '../Actions/displayActions'
+
+const handleErrors=(res, dispatch)=>{
   if(!res.ok){
-    throw Error(res.statusText)
+    //TODO: Set Redux state to whatever the auth error is
+    return({
+        type: "TRX_ERROR",
+        value: res.status
+      }
+    )
   }
   return res
-  
 }
 
 export const loadMain=(month, year)=>{
@@ -13,11 +20,21 @@ export const loadMain=(month, year)=>{
          authorization: localStorage.getItem("token"),
        }
     })
-      .then(handleErrors)
-      .then(res => res.json())
+      // .then((res)=>handleErrors(res, dispatch))
+      .then(res => res.json()
+        .then(body=>({status: res.status, body}))
+      )
       .then(
         (transactions)=>{
-        dispatch(mainLoaded(transactions))
+          const { body, status } = transactions
+          if (status === 200){
+            dispatch(mainLoaded(body))
+          }else{
+            console.log(body.error, transactions)
+            dispatch(loginFailure(body.error, status))
+            dispatch(authStatus('','failure'))
+            dispatch(authVisible(true))
+          }
     }).catch((err)=>err)
   }
 }
@@ -40,10 +57,11 @@ export const postNewMainTrx=(main)=>{
         authorization: localStorage.getItem("token"),
       } 
     })
-    .then(handleErrors)
+    // .then((res)=>dispatch(handleErrors(res)))
     .then(res=>res.json())
     .then((trx)=>{
-      dispatch(loadMain(trx))
+      const dtVal = new Date(trx.date)
+      dispatch(loadMain(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }
@@ -60,7 +78,8 @@ export const deleteMainTrx=(id)=>{
     .then(handleErrors)
     .then(res=>res.json())
     .then((trx)=>{
-      dispatch(loadMain(trx))
+      const dtVal = new Date()
+      dispatch(loadMain(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }
@@ -75,10 +94,11 @@ export const postUpdateMainTrx=(main, id)=>{
         authorization: localStorage.getItem("token"),
       } 
     })
-    .then(handleErrors)
+    // .then((res)=>dispatch(handleErrors(res)))
     .then(res=>res.json())
     .then((trx)=>{
-      dispatch(loadMain(trx))
+      const dtVal = new Date()
+      dispatch(loadMain(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }

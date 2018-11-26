@@ -75,7 +75,7 @@ class SimpleSelect extends React.Component {
               <OutlinedInput
                 labelWidth={this.state.labelWidth}
                 name={this.props.title}
-                id="outlined-month"
+                id={`outlined-${title}`}
               />
             }
           >

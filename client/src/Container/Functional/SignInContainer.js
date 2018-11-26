@@ -1,18 +1,24 @@
 import { connect } from 'react-redux'
-import { postNewAccount } from '../../Redux/Actions/authenticationActions'
+import { handleSignIn, handleSignUp } from '../../Redux/Actions/authenticationActions';
 import { authVisible } from '../../Redux/Actions/displayActions'
 import Form from '../../Forms/signUpForm'
 
 const msp=(state)=>{
   return{
     open: state.authVisible,
+    error: state.loginErr
+    /*
+    error,
+    userToken
+    */
   }
 }
 
 const mdp =(dispatch)=>{
   return {
-    postUser: (user)=>dispatch(postNewAccount(user)),
-    handleClose: ()=>dispatch(authVisible(false))
+    handleClose: (status)=>(dispatch(authVisible(status))),
+    onSignIn:(credentials)=>(dispatch(handleSignIn(credentials))),
+    onSignUp:(credentials)=>(dispatch(handleSignUp(credentials)))
   }
 }
 

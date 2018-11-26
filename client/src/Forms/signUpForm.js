@@ -20,6 +20,9 @@ const styles = theme => ({
   iconSmall: {
     fontSize: 20,
   },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 class FormDialog extends Component {
@@ -47,9 +50,9 @@ class FormDialog extends Component {
     })
   }
 
-  handleClose = ()=>{
-    this.setState({open: false})
-  }
+  // handleClose = ()=>{
+  //   this.setState({open: false})
+  // }
 
   handleChecked = (e)=>this.setState({isIncome: e.target.checked})
 
@@ -59,7 +62,7 @@ class FormDialog extends Component {
       <div>
         <Dialog
           open={this.props.open}
-          onClose={this.props.handleClose}
+          onClose={()=>this.props.handleClose(this.props.open)}
           aria-labelledby="form-dialog-title"
           maxWidth="xs"
           onEnter={()=>this.handleInitialState()}
@@ -96,11 +99,11 @@ class FormDialog extends Component {
           <DialogActions>
           <Button 
               className={classes.button}
-              variant="raised" size="small"
+              variant="contained" size="small"
               color="secondary"
               onClick={()=>{
                 this.props.onSignUp(this.state)
-                  this.handleClose()
+                  // this.props.handleClose(this.props.open)
                 }
               }
             >
@@ -109,11 +112,11 @@ class FormDialog extends Component {
             </Button>
             <Button 
               className={classes.button}
-              variant="raised" size="small"
+              variant="contained" size="small"
               color="primary"
               onClick={()=>{
                   this.props.onSignIn(this.state)
-                  this.props.handleClose()
+                  // this.props.handleClose(!this.props.open)
                 }
               }
             >

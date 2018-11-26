@@ -5,7 +5,7 @@ const { list,show,create,update,remove } = require('../controllers/cashControlle
 const { isAuth } = require('../services/token')
 
 // Use whatever method you need (get, post, etc)
-router.get('/cash', isAuth, list)
+router.get('/cash/:month/:year', isAuth, list)
 router.get('/cash/:id', isAuth, show)
 router.post('/cash', isAuth, create)
 router.put('/cash/:id', isAuth, update)

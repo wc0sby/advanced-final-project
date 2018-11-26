@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { postNewMainTrx } from '../../Redux/Actions/mainTrxActions'
 import Form from '../../Forms/newTransactionForm'
 import { trxVisible } from '../../Redux/Actions/displayActions'
@@ -17,4 +18,4 @@ const mdp =(dispatch)=>{
   }
 }
 
-export default connect(msp,mdp)(Form)
+export default withRouter(connect(msp,mdp)(Form))

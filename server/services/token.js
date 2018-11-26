@@ -11,16 +11,19 @@ module.exports.isAuth = (req, res, next)=>{
 
   const authHeader = req.headers.authorization;
   if ((authHeader === null) || (authHeader === undefined)) {
+    console.log(authHeader,req.params.id)
     return res.redirect('/');
   }
 
-  const decodedAuthInfo = jwt.decode(authHeader, process.env.SECRET);
-  const tokenExpDate = decodedAuthInfo.exp
-  const tokenExpired = new Date()/1000 > tokenExpDate;   // TODO: compare to today's date, 
-  if (tokenExpired) {
-    return res.status(408).redirect('/');
-  }
 
+try {
+  const decodedAuthInfo = jwt.decode(authHeader, process.env.SECRET);
   req.userId = decodedAuthInfo.userId;
+  
   next();
+} catch (error) {
+  return res.status(403).json({error:"Session Expired"});
+}
+ 
+  
 }

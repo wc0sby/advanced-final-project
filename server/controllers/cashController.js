@@ -2,7 +2,13 @@
 const Cash = require('../models/cashModel')
 
 module.exports.list = ((req,res)=>{
-  Cash.find({"userID": req.userId}).exec()
+  const { year, month } = req.params
+  const startDt = new Date(year,Number(month),1)
+  const endDt = new Date(year,Number(month)+1,0)  
+  Cash.find({
+    "userID": req.userId,
+    "date":{"$gte": startDt, "$lt": endDt}
+  }).exec()
   .then(cashes=>{
     res.json(cashes)
   })
@@ -50,6 +56,7 @@ module.exports.update = ((req, res)=>{
 })
 
 module.exports.remove = ((req, res)=>{
+  console.log(req.params.id)
   Cash.deleteOne({_id:req.params.id}).exec()
   .then(transaction=>{
   res.json(transaction)

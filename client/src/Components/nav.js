@@ -41,7 +41,7 @@ class NavBar extends Component{
             className={classes.menuButton} 
             color="inherit" 
             aria-label="Menu"
-            onClick={()=>this.props.toggleBar('left', true)}
+            onClick={()=>this.props.toggleBar(true)}
           >
             <MenuIcon />
           </IconButton>

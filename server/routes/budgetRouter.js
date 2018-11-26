@@ -5,7 +5,7 @@ const { list,show,create,update,remove } = require('../controllers/budgetControl
 const { isAuth } = require('../services/token')
 
 // Use whatever method you need (get, post, etc)
-router.get('/budget', isAuth, list)
+router.get('/budget/:month/:year', isAuth, list)
 router.get('/budget/:id', isAuth, show)
 router.post('/budget', isAuth, create)
 router.put('/budget/:id', isAuth, update)

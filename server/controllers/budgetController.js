@@ -3,7 +3,13 @@ const Budget = require('../models/budgetModel')
 const JWTService = require('../services/token')
 
 module.exports.list = ((req,res)=>{
-  Budget.find({"userID": req.userId}).exec()
+  const { year, month } = req.params
+  const startDt = new Date(year,Number(month),1)
+  const endDt = new Date(year,Number(month)+1,0)  
+  Budget.find({
+    "userID": req.userId,
+    "postDate":{"$gte": startDt, "$lte": endDt}
+  }).exec()
   .then(budgetItems=>{
     res.json(budgetItems)
   })

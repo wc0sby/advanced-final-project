@@ -37,6 +37,7 @@ const msp=state=>{
     categories: state.categories,
     month: state.selectedMonth,
     year: state.selectedYear,
+    appStatus: state.mainTrxErr,
   }
 }
 
@@ -44,8 +45,8 @@ const msp=state=>{
 const mdp=(dispatch)=>{
   return{
     fetchMain: (month, year)=>dispatch(loadMain(month, year)),
-    fetchCash: ()=>dispatch(loadCash()),
-    fetchBudget: ()=>dispatch(loadBudget()),
+    fetchCash: (month, year)=>dispatch(loadCash(month, year)),
+    fetchBudget: (month, year)=>dispatch(loadBudget(month, year)),
     fetchCategories: ()=>dispatch(loadCategories()),
     handleFormOpen: (form)=>{
         switch (form){

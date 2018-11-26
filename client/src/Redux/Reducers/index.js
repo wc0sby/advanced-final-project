@@ -9,6 +9,13 @@ const mainTrx = (state = [], action)=>{
   return state
 }
 
+const mainTrxErr = (state = '', action)=>{
+  if (action.type === "TRX_ERROR"){
+    return action.value
+  }
+  return state
+}
+
 const cashTrx = (state = [], action)=>{
   if (action.type === "CASH_LOADED"){
     return action.value
@@ -105,9 +112,23 @@ const authVisible = (state = true, action)=>{
   return state
 }
 
-const userToken = (state = '', action)=>{
-  if(action.type === "USER_LOADED"){
+const sideBarVisible = (state = false, action)=>{
+  if (action.type === "TOGGLE_SIDEBAR"){
     return action.value
+  }
+  return state
+}
+
+const userToken = (state = '', action)=>{
+  if(action.type === "AUTH_STATUS"){
+    return action.token
+  }
+  return state
+}
+
+const loginErr = (state = '', action)=>{
+  if (action.type === "LOGIN_FAILURE"){
+    return action.message
   }
   return state
 }
@@ -129,9 +150,9 @@ const selectedYear = (state = d.getFullYear(), action)=>{
 }
 
 const rootReducer = combineReducers({
-  mainTrx, cashTrx, budgetTrx, categories, rowInScope, 
-  trxVisible, catVisible, budVisible, cashVisible, charts,
+  mainTrx, mainTrxErr, cashTrx, budgetTrx, categories, rowInScope, 
+  trxVisible, catVisible, budVisible, cashVisible, sideBarVisible, charts,
   editTrxVisible, editBudVisible, editCashVisible, editCatVisible,
-  authVisible, userToken, selectedMonth, selectedYear
+  authVisible, userToken, loginErr, selectedMonth, selectedYear
 });
 export default rootReducer
