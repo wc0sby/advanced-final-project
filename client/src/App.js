@@ -5,9 +5,24 @@ import SignUpSignIn from "./Container/Functional/SignInContainer";
 import NavBar from './Container/Functional/navContainer'
 import SideBar from './Components/sidebar'
 import Authenticated from './Container/Functional/AppContainer'
+import Mobile from './Container/Functional/MobileAppContainer'
 
 class App extends Component {
+  state = {
+    width: window.innerWidth
+  }
 
+  componentWillMount(){
+    window.addEventListener('resize', this.handleWindowSizeChange)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange)
+  }
+  
+  handleWindowSizeChange = () => {
+    this.setState({ width: window.innerWidth })
+  }
 
   whatToRender() {
     const cookieTokenGood = this.props.cookie(localStorage.getItem("token"))
@@ -20,6 +35,9 @@ class App extends Component {
   }
 
   renderApp() {
+    const { width } = this.state;
+    const isMobile = width <= 500;
+    if(!isMobile){
     return (
       <div>
         <Switch>
@@ -32,7 +50,21 @@ class App extends Component {
           <Route render={() => <h1>NOT FOUND!</h1>} />
         </Switch>
      </div>
-    )
+    )}else{
+      return(
+        //TODO: Let's make some real mobile functionality happen here
+        //idea: display a small table that will display name and amount,
+        //clickable to expand with further details
+        //header will contain the total with a '+' icon.
+        //The '+' icon will bring up the data form
+      <Switch>
+        <Route exact path="/" component={Mobile} />
+        <Route exact path="/cash" component={Mobile} />
+        <Route exact path="/budget" component={Mobile} />
+        <Route exact path="/progress" component={Mobile} />
+      </Switch>
+      )
+    }
   }
 
   render() {
