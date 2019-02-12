@@ -18,12 +18,12 @@ class SideDrawer extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <Drawer open={this.props.open} onClose={()=>this.props.toggleBar('left', false)}>
+        <Drawer open={this.props.open} onClose={()=>this.props.toggleBar(false)}>
           <div
             tabIndex={0}
             role="button"
-            onClick={()=>this.props.toggleBar('left', false)}
-            onKeyDown={()=>this.props.toggleBar('left', false)}
+            onClick={()=>this.props.toggleBar(false)}
+            onKeyDown={()=>this.props.toggleBar(false)}
           >
           </div>
           <div className={classes.list}>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Paper, Tabs, Tab, AppBar } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom'
 import MainTransactions from '../Container/Functional/MainTableContainer'
 import CashTransactions from '../Container/Functional/CashTableContainer'
 import BudgetTransactions from '../Container/Functional/BudgetTableContainer'
@@ -24,26 +25,26 @@ class TabHeader extends Component{
       <div className={classes.root}>
         <AppBar position="static" style={{background: '#66CDAA'}}>
         <Tabs
-          value = {this.props.value}
+          value = {this.props.history.location.pathname}
           indicatorColor="secondary"
           onChange={this.props.handleTabChange}
           centered={true}
           fullWidth={true}
         >
-          <Tab label="Main" />
-          <Tab label="Cash" />
-          <Tab label="Budget" />
-          <Tab label="Progress" />
+          <Tab label="Main" value='/' />  
+          <Tab label="Cash" value='/cash'/>
+          <Tab label="Budget" value='/budget' />
+          <Tab label="Progress" value='/progress' />
         </Tabs>
         </AppBar>
       <Paper style={{width:'98%', marginTop: 1, marginLeft: '1%'}}>
-        {this.props.value === 0 && <MainTransactions data={this.props.main} tab={this.props.value} />}
-        {this.props.value === 1 && <CashTransactions data={this.props.cash} tab={this.props.value} />}
-        {this.props.value === 2 && <BudgetTransactions data={this.props.budget} tab={this.props.value} /> }
-        {this.props.value === 3 && <div> <Paper> <IncomeSummary /> <ExpenseSummary /> <SavingsSummary /> <FreeSpending /> </Paper></div>}
+        {this.props.value === '/' && <MainTransactions data={this.props.main} tab={this.props.value} />}
+        {this.props.value === '/cash' && <CashTransactions data={this.props.cash} tab={this.props.value} />}
+        {this.props.value === '/budget' && <BudgetTransactions data={this.props.budget} tab={this.props.value} /> }
+        {this.props.value === '/progress' && <div> <Paper> <IncomeSummary /> <ExpenseSummary /> <SavingsSummary /> <FreeSpending /> </Paper></div>}
       </Paper>
       </div>
     )}
 }
 
-export default withStyles(this.styles)(TabHeader);
+export default withRouter(withStyles(this.styles)(TabHeader));

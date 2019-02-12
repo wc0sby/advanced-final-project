@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import App from '../../AppAuthenticated'
+import App from '../../mobileApp'
 import {loadMain} from '../../Redux/Actions/mainTrxActions'
 import {loadCash} from '../../Redux/Actions/cashTrxActions'
 import {loadBudget} from '../../Redux/Actions/budgetTrxActions'

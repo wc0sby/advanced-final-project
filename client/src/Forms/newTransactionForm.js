@@ -104,6 +104,7 @@ class FormDialog extends Component {
     const categories = (this.props.categories.filter((i)=>{
       return i.category === this.state.category })
   )
+ 
     return categories[0].isIncome
     ?this.setState({amount: amount * -1})
     :this.setState({amount: Math.abs(amount)})
@@ -172,7 +173,7 @@ class FormDialog extends Component {
                 className={classes.textField}
                 value={this.state.category}
                 onChange={this.handleChange('category')}
-                onBlur={this.handleIncome}
+                onBlur={this.state.category ? this.handleIncome : ()=>''}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu,

@@ -1,11 +1,27 @@
-export const loadCash=()=>{
+import { loginFailure, authStatus } from '../Actions/authenticationActions'
+import { authVisible } from '../Actions/displayActions'
+
+export const loadCash=(month, year)=>{
   return (dispatch) =>{
-    fetch(`/cash`)
-      .then(res => res.json())
+    fetch(`/cash/${month}/${year}`, {
+      headers: {
+         authorization: localStorage.getItem("token"),
+       }
+    })
+      .then(res => res.json()
+        .then(body=>({status: res.status, body}))
+      )
       .then(
         (cash)=>{
-        dispatch(cashLoaded(cash))
-    })
+        const { body, status } = cash
+        if (status === 200){
+          dispatch(cashLoaded(body))
+        }else{
+          dispatch(loginFailure(body.error, status))
+          dispatch(authStatus('','failure'))
+          dispatch(authVisible(true))
+        }
+  }).catch((err)=>err)
   }
 }
 
@@ -22,12 +38,14 @@ export const postNewCashTrx=(cash)=>{
       method: 'post',
       body: JSON.stringify(cash),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token")
       }
     })
     .then(res=>res.json())
     .then((cashTrx)=>{
-      dispatch(loadCash(cashTrx))
+      const dtVal = new Date(cashTrx.date)
+      dispatch(loadCash(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }
@@ -35,11 +53,15 @@ export const postNewCashTrx=(cash)=>{
 export const deleteCashTrx=(id)=>{
   return (dispatch)=>{
     fetch(`/cash/${id}`,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers:{
+        authorization: localStorage.getItem("token")
+      }
     })
     .then(res=>res.json())
     .then((trx)=>{
-      dispatch(loadCash(trx))
+      const dtVal = new Date()
+      dispatch(loadCash(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }
@@ -50,12 +72,14 @@ export const postUpdateCashTrx=(main, id)=>{
       method: 'put',
       body: JSON.stringify(main),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token")
       } 
     })
     .then(res=>res.json())
     .then((trx)=>{
-      dispatch(loadCash(trx))
+      const dtVal = new Date()
+      dispatch(loadCash(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }

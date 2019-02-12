@@ -1,145 +1,93 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import SignUpSignIn from "./Container/Functional/SignInContainer";
-// import LogInButton from "./Components/Buttons/SignInButton";
-// import Secret from "./Secret";
-import NavBar from './Components/nav'
+import NavBar from './Container/Functional/navContainer'
 import SideBar from './Components/sidebar'
-
-
 import Authenticated from './Container/Functional/AppContainer'
+import Mobile from './Container/Functional/MobileAppContainer'
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      showForm: false,
-      signUpSignInError: "",
-      authenticated: localStorage.getItem("token") || false
-    };
-    this.handleSignIn = this.handleSignIn.bind(this);
-    this.handleSignOut = this.handleSignOut.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
+  state = {
+    width: window.innerWidth,
+    cookie: ''
   }
 
-  toggleDrawer = (side, open) => {
-    this.setState({
-      [side]: open,
-    });
-  };
-
-  handleSignUp(credentials) {
-    const { username, password } = credentials;
-    if (!username.trim() || !password.trim() ) {
-      this.setState({
-        signUpSignInError: "Must Provide All Fields"
-      });
-    } else {
-
-      fetch("/users", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(credentials)
-      }).then((res) => {
-        return res.json();
-      }).then((data) => {
-        const { token } = data;
-        localStorage.setItem("token", token);
-        this.setState({
-          signUpSignInError: "",
-          authenticated: token
-        });
-      });
-    }
+  componentWillMount(){
+    window.addEventListener('resize', this.handleWindowSizeChange)
+    localStorage.getItem("token") ? this.props.cookie(localStorage.getItem("token")) : null
   }
 
-  handleSignIn(credentials) {
-    const { username, password } = credentials;
-    if (!username.trim() || !password.trim()) {
-      this.setState({
-        signUpSignInError: 'Must Provide All Fields',
-      });
-    } else {
-      fetch('/sessions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-      })
-        .then((res) => {
-          if (res.status === 401) {
-            console.log('invalid login');
-            this.setState({
-              signUpSignInError: 'Invalid login.',
-            });
-          } else {
-            return res.json();
-          }
-        })
-        .then((data) => {
-          const { token } = data;
-          localStorage.setItem('token', token);
-          this.setState({
-            signUpSignInError: '',
-            authenticated: token,
-          });
-        });
-    }
-  }  
-
-  handleSignOut() {
-    localStorage.removeItem("token");
-    this.setState({
-      authenticated: false
-    });
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange)
+  }
+  
+  handleWindowSizeChange = () => {
+    this.setState({ width: window.innerWidth })
   }
 
-  renderSignUpSignIn() {
-    return (
-      <SignUpSignIn 
-        error={this.state.signUpSignInError} 
-        onSignUp={this.handleSignUp} 
-        onSignIn={this.handleSignIn}
-      />
-    );
+  whatToRender() {
+    // const cookieTokenGood = this.state.cookie
+    // this.props.cookie(localStorage.getItem("token"))
+      if (this.props.token) {
+        return this.renderApp();
+      } 
+      else {
+        return <SignUpSignIn />;
+      }
   }
 
   renderApp() {
+    const { width } = this.state;
+    const isMobile = width <= 500;
+    if(!isMobile){
     return (
       <div>
         <Switch>
           <Route exact path="/" component={Authenticated} />
-          <Route exact path="/budgeted"  />
+          <Route exact path="/cash" component={Authenticated} />
+          <Route exact path="/budget" component={Authenticated} />
+          <Route exact path="/progress" component={Authenticated} />
+
+          <Route exact path="/login" component={SignUpSignIn} />
           <Route render={() => <h1>NOT FOUND!</h1>} />
         </Switch>
-      </div>
-    );
+     </div>
+    )}else{
+      return(
+        //TODO: Let's make some real mobile functionality happen here
+        //idea: display a small table that will display name and amount,
+        //clickable to expand with further details
+        //header will contain the total with a '+' icon.
+        //The '+' icon will bring up the data form
+      <Switch>
+        <Route exact path="/" component={Mobile} />
+        <Route exact path="/cash" component={Mobile} />
+        <Route exact path="/budget" component={Mobile} />
+        <Route exact path="/progress" component={Mobile} />
+      </Switch>
+      )
+    }
   }
 
   render() {
-    let whatToShow = "";
-    if (this.state.authenticated) {
-      whatToShow = this.renderApp();
-    } else {
-      whatToShow = this.renderSignUpSignIn();
-    }
-       
     return (
-      <BrowserRouter>
         <div >
         <NavBar 
             title="Balanced"
-            toggleBar = {(side,open)=>this.toggleDrawer(side,open)}
+            toggleBar = {(open)=>this.props.toggleDrawer(open)}
           />
           <SideBar
-             toggleBar={this.toggleDrawer}
-             open={this.state.left}
+             toggleBar={this.props.toggleDrawer}
+             open={this.props.leftBar}
              catToggle={()=>this.props.handleFormOpen('catVisible')}
-             onSignOut={this.handleSignOut}
+             onSignOut={this.props.onSignOut}
             />
-          {whatToShow}
+          { 
+             // Conditional render based on authentication
+            this.whatToRender()
+          }
         </div>
-      </BrowserRouter>
     );
   }
 }

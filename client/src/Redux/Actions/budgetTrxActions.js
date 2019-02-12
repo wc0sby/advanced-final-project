@@ -1,11 +1,27 @@
-export const loadBudget=()=>{
+import { loginFailure, authStatus } from '../Actions/authenticationActions'
+import { authVisible } from '../Actions/displayActions'
+
+
+export const loadBudget=(month, year)=>{
   return (dispatch) =>{
-    fetch(`/budget`)
-      .then(res => res.json())
+    fetch(`/budget/${month}/${year}`,{headers: {
+        authorization: localStorage.getItem("token"),
+      }
+    })
+      .then(res => res.json()
+        .then(body=>({status: res.status, body}))
+      )
       .then(
         (budget)=>{
-        dispatch(budgetLoaded(budget))
-    })
+          const { body, status } = budget
+          if (status === 200){
+            dispatch(budgetLoaded(body))
+          }else{
+            dispatch(loginFailure(body.error, status))
+            dispatch(authStatus('','failure'))
+            dispatch(authVisible(true))
+          }
+    }).catch((err)=>err)
   }
 }
 
@@ -22,13 +38,15 @@ export const postNewBudgetTrx=(budget)=>{
       method: 'post',
       body: JSON.stringify(budget),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token"),
       }
     })
     .then(res=>res.json())
     .then((budgetTrx)=>{
       console.log(budgetTrx)
-      dispatch(loadBudget(budgetTrx))
+      const dtVal = new Date(budgetTrx.postDate)
+      dispatch(loadBudget(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }
@@ -36,11 +54,15 @@ export const postNewBudgetTrx=(budget)=>{
 export const deleteBudgetTrx=(id)=>{
   return (dispatch)=>{
     fetch(`/budget/${id}`,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        authorization: localStorage.getItem("token"),
+      }
     })
     .then(res=>res.json())
     .then((trx)=>{
-      dispatch(loadBudget(trx))
+      const dtVal = new Date()
+      dispatch(loadBudget(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }
@@ -51,12 +73,14 @@ export const postUpdateBudgetTrx=(main, id)=>{
       method: 'put',
       body: JSON.stringify(main),
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: localStorage.getItem("token"),
       } 
     })
     .then(res=>res.json())
     .then((trx)=>{
-      dispatch(loadBudget(trx))
+      const dtVal = new Date()
+      dispatch(loadBudget(dtVal.getMonth(), dtVal.getFullYear()))
     })
   }
 }

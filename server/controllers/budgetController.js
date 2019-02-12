@@ -1,8 +1,15 @@
 // Connect to data (i.e. Model)
 const Budget = require('../models/budgetModel')
+const JWTService = require('../services/token')
 
 module.exports.list = ((req,res)=>{
-  Budget.find({}).exec()
+  const { year, month } = req.params
+  const startDt = new Date(year,Number(month),1)
+  const endDt = new Date(year,Number(month)+1,0)  
+  Budget.find({
+    "userID": req.userId,
+    "postDate":{"$gte": startDt, "$lte": endDt}
+  }).exec()
   .then(budgetItems=>{
     res.json(budgetItems)
   })
@@ -20,7 +27,9 @@ module.exports.create = ((req, res)=>{
   const newBudgetItem = new Budget({
     name: req.body.name,
     amount: req.body.amount,
-    type: req.body.type
+    type: req.body.type,
+    userID: req.userId,
+    postDate: Date()
   })
   newBudgetItem.save()
   .then(savedTRX=>{
@@ -32,7 +41,9 @@ module.exports.update = ((req, res)=>{
   const newBudgetItem = {
     name: req.body.name,
     amount: req.body.amount,
-    type: req.body.type
+    type: req.body.type,
+    userID: req.userId,
+    updateDate: Date()
   }
   Budget.updateOne({_id:req.params.id},
     newBudgetItem

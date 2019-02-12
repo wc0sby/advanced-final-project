@@ -90,11 +90,11 @@ class App extends Component {
       <div >
 
         <div className="main-container">
-          <Grid 
+          {/* <Grid 
             container spacing={24}
-          >
-            <Grid item xs>
-              <Grid 
+          > */}
+            {/* <Grid item xs> */}
+              {/* <Grid 
                 container
                 spacing={16}
                 alignItems={Style.chartGrid.alignItems}
@@ -104,9 +104,9 @@ class App extends Component {
                 <Grid item>
                   <MainInfoCard title={'Primary Account Progress'}/>
                 </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs>
+              </Grid> */}
+            {/* </Grid> */}
+            {/* <Grid item xs>
               <Grid 
                 container
                 spacing={16}
@@ -118,8 +118,8 @@ class App extends Component {
                   <CashInfoCard title={'Cash Progress'}/>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs>
+            </Grid> */}
+            {/* <Grid item xs>
               <Grid 
                 container
                 spacing={16}
@@ -131,11 +131,11 @@ class App extends Component {
                   <MainInfoCard title={'Main'}/>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </Grid> */}
+          {/* </Grid> */}
 
-        <Grid container spacing={24}>
-          <Grid item xs>
+        {/* <Grid container spacing={24}> */}
+          {/* <Grid item xs>
             <Card
               title="Balance"
               data={this.props.balance}
@@ -154,7 +154,7 @@ class App extends Component {
             title="Date"
             data={new Date().toDateString()}
             />
-          </Grid>
+          </Grid> */}
           {/* <Grid item xs> */}
             {/* <Card
             title="Month"
@@ -163,15 +163,15 @@ class App extends Component {
             >
           </Card> */}
           {/* </Grid> */}
-        </Grid>
+        {/* </Grid> */}
 
-        <Grid container>
-          <Grid item xs>
+        {/* <Grid container> */}
+          {/* <Grid item xs> */}
             <Tabs 
               value = {this.state.value}
               handleTabChange = {this.handleTabChange}
             />
-          </Grid>
+          {/* </Grid> */}
 
           {this.renderAddButton()}
 
@@ -181,9 +181,9 @@ class App extends Component {
           <EditCashTRX name='Edit Cash Transaction' />
           <NewBudgetTRX name='Add Budget Transaction' />
           <EditBudgetTRX name='Edit Budget Transaction' />
-          <NewCategory name='New Category' fullscreen={false} />
-          <EditCategory name='Edit Category' fullscreen={false} />
-        </Grid>
+          <NewCategory name='New Category' fullscreen={true} />
+          <EditCategory name='Edit Category' fullscreen={true} />
+        {/* </Grid> */}
 
         </div>
       </div>

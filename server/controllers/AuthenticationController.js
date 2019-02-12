@@ -1,7 +1,7 @@
 const User = require("../models/UserModel");
 const jwt = require("jwt-simple");
 
-function authentication(request, response,next) {
+function authentication(request, response, next) {
   // get the token from the header
   const tokenString = request.header("authorization");
   if (!tokenString) {
@@ -13,6 +13,7 @@ function authentication(request, response,next) {
   User.findById(tokenObject.userId, function (err, user) {
     if (err) { return response.send("Error"); }
     if (user) {
+      console.log(request.user)
       request.user = user;
       return next();
     } 
@@ -20,4 +21,4 @@ function authentication(request, response,next) {
   });
 }
 
-exports.authentication = authentication;
+// exports.authentication = authentication;

@@ -70,7 +70,35 @@ export const editCashVisible=(booleanVal)=>{
 
 export const authVisible=(booleanVal)=>{
   return{
-    type: 'TOGGLE_SIGNIN_FORM',
+    type: 'TOGGLE_AUTH_FORM',
+    value: booleanVal
+  }
+}
+
+export const selectedMonth= date => {
+  return{
+    type: 'SET_MONTH',
+    value: date
+  }
+}
+
+export const selectedYear=(date)=>{
+  return{
+    type: 'SET_YEAR',
+    value: date
+  }
+}
+
+export const getYears=(year)=>{
+  return{
+    type: 'GET_YEARS',
+    value: year,
+  }
+}
+
+export const sideBarVisible=(booleanVal) => {
+  return{
+    type: 'TOGGLE_SIDEBAR',
     value: booleanVal
   }
 }
