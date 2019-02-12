@@ -9,11 +9,13 @@ import Mobile from './Container/Functional/MobileAppContainer'
 
 class App extends Component {
   state = {
-    width: window.innerWidth
+    width: window.innerWidth,
+    cookie: ''
   }
 
   componentWillMount(){
     window.addEventListener('resize', this.handleWindowSizeChange)
+    localStorage.getItem("token") ? this.props.cookie(localStorage.getItem("token")) : null
   }
 
   componentWillUnmount() {
@@ -25,8 +27,9 @@ class App extends Component {
   }
 
   whatToRender() {
-    const cookieTokenGood = this.props.cookie(localStorage.getItem("token"))
-      if (cookieTokenGood || this.props.token) {
+    // const cookieTokenGood = this.state.cookie
+    // this.props.cookie(localStorage.getItem("token"))
+      if (this.props.token) {
         return this.renderApp();
       } 
       else {
